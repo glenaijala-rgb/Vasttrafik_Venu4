@@ -1,0 +1,14 @@
+{
+  "synthetic": true,
+  "scenarios": [
+    "API timeout",
+    "HTTP 429",
+    "OAuth expired",
+    "CONFIG_INCOMPLETE",
+    "No departures",
+    "Cancelled",
+    "Partially cancelled",
+    "realtimeStopPoint changed",
+    "DST transition"
+  ]
+}

@@ -1,0 +1,137 @@
+{
+  "schemaVersion": 2,
+  "defaults": {
+    "startupProfile": "home",
+    "locale": "sv-SE",
+    "timezone": "Europe/Stockholm",
+    "maxUpcomingDepartures": 16,
+    "searchHorizonMinutes": 180,
+    "refreshOnOpen": true,
+    "cacheTtlSeconds": 45,
+    "staleAfterSeconds": 180
+  },
+  "profiles": [
+    {
+      "id": "home",
+      "label": "Hem",
+      "sortOrder": 1,
+      "mergeByDepartureTime": true,
+      "stations": [
+        {
+          "key": "wennerbergsgatan",
+          "name": "Wennerbergsgatan",
+          "shortLabel": "Wennerbergsg.",
+          "stopAreaGid": null,
+          "criteria": [
+            {
+              "id": "753-heden",
+              "enabled": true,
+              "lineNames": [
+                "753"
+              ],
+              "direction": {
+                "description": "Mot Heden",
+                "headsignHints": [
+                  "Heden"
+                ],
+                "allowedDirectionGids": [],
+                "allowedStopPointGids": [],
+                "allowedPlatforms": [],
+                "mustPassStopAreaGids": [],
+                "verificationStatus": "pending",
+                "verifiedAt": null,
+                "verificationNote": "Kontrollera med live-API, använd inte headsignHint som enda produktionsfilter"
+              }
+            }
+          ]
+        },
+        {
+          "key": "toltorpsskolan",
+          "name": "Toltorpsskolan",
+          "shortLabel": "Toltorpssk.",
+          "stopAreaGid": null,
+          "criteria": [
+            {
+              "id": "25-hisingen",
+              "enabled": true,
+              "lineNames": [
+                "25"
+              ],
+              "direction": {
+                "description": "Mot Hisingen/Länsmansgården",
+                "headsignHints": [
+                  "Länsmansgården",
+                  "Hisingen"
+                ],
+                "allowedDirectionGids": [],
+                "allowedStopPointGids": [],
+                "allowedPlatforms": [],
+                "mustPassStopAreaGids": [],
+                "verificationStatus": "pending",
+                "verifiedAt": null,
+                "verificationNote": "Verifiera verklig destinationsskylt, GID och hållplatsläge"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "work",
+      "label": "Jobb",
+      "sortOrder": 2,
+      "mergeByDepartureTime": true,
+      "stations": [
+        {
+          "key": "kretsloppsparken",
+          "name": "Kretsloppsparken",
+          "shortLabel": "Kretsloppsp.",
+          "stopAreaGid": null,
+          "criteria": [
+            {
+              "id": "78-gamlestaden",
+              "enabled": true,
+              "lineNames": [
+                "78"
+              ],
+              "direction": {
+                "description": "Mot Gamlestads Torg",
+                "headsignHints": [
+                  "Gamlestads Torg"
+                ],
+                "allowedDirectionGids": [],
+                "allowedStopPointGids": [],
+                "allowedPlatforms": [],
+                "mustPassStopAreaGids": [],
+                "verificationStatus": "pending",
+                "verifiedAt": null,
+                "verificationNote": "Verifiera GID, linje och färdriktning via live-API"
+              }
+            },
+            {
+              "id": "173-mot-centrum",
+              "enabled": true,
+              "lineNames": [
+                "173"
+              ],
+              "direction": {
+                "description": "Mot Heden, i önskad färdriktning från Kretsloppsparken",
+                "headsignHints": [
+                  "Heden"
+                ],
+                "allowedDirectionGids": [],
+                "allowedStopPointGids": [],
+                "allowedPlatforms": [],
+                "mustPassStopAreaGids": [],
+                "verificationStatus": "pending",
+                "verifiedAt": null,
+                "verificationNote": "Kontrollera linjens faktiska väg och vad 'mot Gamlestaden' innebär; destinationsnamn räcker inte"
+              }
+            }
+          ]
+        }
+      ],
+      "futureExpansionPolicy": "Lägg till varje ytterligare verifierad linje/riktning som egen criterion för Kretsloppsparken; wildcard-filtret får aldrig släppa igenom fel färdriktning."
+    }
+  ]
+}

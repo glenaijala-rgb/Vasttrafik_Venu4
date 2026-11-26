@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Venu 4 – UI-skiss v2.0 (syntetiska avgångar)</title>
+<style>
+body{font:16px system-ui,sans-serif;background:#f4f6f8;color:#19212c;max-width:900px;margin:0 auto;padding:24px}
+h1{font-size:22px} p{line-height:1.45}.layout{display:flex;gap:32px;align-items:flex-start;flex-wrap:wrap}
+.watch{width:390px;height:390px;border-radius:50%;background:#0b111b;color:#f7f9fc;border:9px solid #626b78;box-sizing:border-box;position:relative;padding:32px 55px 42px;display:flex;flex-direction:column;align-items:center;overflow:hidden}
+.watch.large{width:454px;height:454px;padding:37px 66px 44px}
+.mode{font-size:24px;font-weight:800;letter-spacing:1px;margin:0 0 4px;color:#8bd2fa}
+.list{width:100%;min-height:0;overflow-y:auto;scrollbar-width:thin;flex:1}
+.depart{border-bottom:1px solid #283544;padding:5px 0}
+.top{display:flex;justify-content:space-between;font-size:27px;font-weight:800}
+.sub{font-size:13px;color:#c0ccd9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.bottom{display:flex;flex-direction:column;align-items:center;gap:4px;margin-top:4px}
+button{border:0;border-radius:14px;padding:7px 23px;background:#156fbc;color:white;font-weight:700;cursor:pointer}
+.status{font-size:11px;color:#bdc8d3}.warning{font-size:13px;color:#a34a00;font-weight:700}
+.controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.note{font-size:13px;color:#5d6673}
+</style>
+</head>
+<body>
+<h1>Västtrafik – Garmin Venu 4 UI v2.0</h1>
+<p class="warning">ENDAST UI-SKISS: alla avgångar och tider är påhittade. Ingen anslutning till Västtrafik.</p>
+<div class="controls"><label><input type="checkbox" id="larger"> Visa 45 mm</label><button id="reset">Återställ Hem</button></div>
+<div class="layout"><div class="watch" id="watch"><div class="mode" id="mode">HEM</div><div class="list" id="list"></div><div class="bottom"><button id="switch">Hållplats</button><span class="status">EXEMPEL · Uppd 16:24</span></div></div>
+<div style="max-width:260px"><strong>Principer</strong><p>En blandad tidsordnad lista. Stort linjenummer och antal minuter. Kort hållplatsnamn på varje rad, ingen separat rubrik per hållplats. Rulla i klockan för fler avgångar.</p><p>Tryck Hållplats för att växla mellan Hem och Jobb.</p></div></div>
+<script>
+const times = [3,6,9,13,18,22,27,31,35,39,44,48,54,59,65,72];
+let profile="home";
+function render(){
+document.getElementById("mode").textContent=profile==="home"?"HEM":"JOBB";
+let html=times.map((time,i)=>{
+let line,source,dest;
+if(profile==="home"){
+line=i%2===0?"753":"25";
+source=i%2===0?"Wennerbergsg.":"Toltorpssk.";
+dest=i%2===0?"Heden":"Hisingen";
+}else{
+line=i%2===0?"78":"173";source="Kretsloppsp.";dest=i%2===0?"Gamlestads Torg":"Heden";
+}
+return "<div class='depart'><div class='top'><span>"+line+"</span><span>"+time+" min</span></div><div class='sub'>"+source+" · "+dest+"</div></div>";
+}).join("");
+document.getElementById("list").innerHTML=html;document.getElementById("list").scrollTop=0;
+}
+document.getElementById("switch").onclick=()=>{profile=profile==="home"?"work":"home";render();};
+document.getElementById("reset").onclick=()=>{profile="home";render();};
+document.getElementById("larger").onchange=e=>document.getElementById("watch").classList.toggle("large",e.target.checked);
+render();
+</script>
+</body></html>

@@ -1,0 +1,24 @@
+{
+  "synthetic": true,
+  "description": "Only for tests, not confirmed actual direction",
+  "mustInclude": [
+    {
+      "line": "78",
+      "direction": "Gamlestads Torg"
+    },
+    {
+      "line": "173",
+      "direction": "Heden"
+    }
+  ],
+  "mustExclude": [
+    {
+      "line": "78",
+      "direction": "opposite"
+    },
+    {
+      "line": "173",
+      "direction": "opposite"
+    }
+  ]
+}

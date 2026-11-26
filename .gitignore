@@ -1,0 +1,23 @@
+# Garmin
+bin/
+*.prg
+*.iq
+*.app
+*.key
+*.der
+*.pem
+# Credentials
+.env
+.env.*
+!.env.example
+*.secret
+secrets*.json
+# Node
+node_modules/
+dist/
+coverage/
+# System
+.DS_Store
+Thumbs.db
+# Local SDK
+*.jks

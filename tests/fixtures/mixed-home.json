@@ -1,0 +1,34 @@
+{
+  "synthetic": true,
+  "description": "Only for tests, NOT realtime traffic",
+  "departures": [
+    {
+      "id": "f1",
+      "stationKey": "wennerbergsgatan",
+      "line": "753",
+      "destination": "Heden",
+      "minutesFromFixtureClock": 3
+    },
+    {
+      "id": "f2",
+      "stationKey": "toltorpsskolan",
+      "line": "25",
+      "destination": "Hisingen",
+      "minutesFromFixtureClock": 6
+    },
+    {
+      "id": "f3",
+      "stationKey": "wennerbergsgatan",
+      "line": "753",
+      "destination": "Heden",
+      "minutesFromFixtureClock": 9
+    },
+    {
+      "id": "f4",
+      "stationKey": "toltorpsskolan",
+      "line": "25",
+      "destination": "Hisingen",
+      "minutesFromFixtureClock": 13
+    }
+  ]
+}

@@ -1,0 +1,208 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Venu4 Vasttrafik profile configuration",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "defaults",
+    "profiles"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": 2
+    },
+    "defaults": {
+      "type": "object",
+      "required": [
+        "startupProfile",
+        "timezone",
+        "maxUpcomingDepartures"
+      ],
+      "properties": {
+        "startupProfile": {
+          "type": "string"
+        },
+        "timezone": {
+          "const": "Europe/Stockholm"
+        },
+        "locale": {
+          "type": "string"
+        },
+        "maxUpcomingDepartures": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100
+        },
+        "searchHorizonMinutes": {
+          "type": "integer",
+          "minimum": 5
+        },
+        "cacheTtlSeconds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "staleAfterSeconds": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "refreshOnOpen": {
+          "type": "boolean"
+        }
+      }
+    },
+    "profiles": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "label",
+          "stations"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "minLength": 1
+          },
+          "label": {
+            "type": "string",
+            "minLength": 1
+          },
+          "sortOrder": {
+            "type": "integer"
+          },
+          "mergeByDepartureTime": {
+            "type": "boolean"
+          },
+          "futureExpansionPolicy": {
+            "type": "string"
+          },
+          "stations": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+              "type": "object",
+              "required": [
+                "key",
+                "name",
+                "shortLabel",
+                "stopAreaGid",
+                "criteria"
+              ],
+              "properties": {
+                "key": {
+                  "type": "string",
+                  "minLength": 1
+                },
+                "name": {
+                  "type": "string"
+                },
+                "shortLabel": {
+                  "type": "string"
+                },
+                "stopAreaGid": {
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "criteria": {
+                  "type": "array",
+                  "minItems": 1,
+                  "items": {
+                    "type": "object",
+                    "required": [
+                      "id",
+                      "enabled",
+                      "lineNames",
+                      "direction"
+                    ],
+                    "properties": {
+                      "id": {
+                        "type": "string"
+                      },
+                      "enabled": {
+                        "type": "boolean"
+                      },
+                      "lineNames": {
+                        "type": "array",
+                        "minItems": 1,
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "direction": {
+                        "type": "object",
+                        "required": [
+                          "description",
+                          "headsignHints",
+                          "allowedDirectionGids",
+                          "allowedStopPointGids",
+                          "allowedPlatforms",
+                          "mustPassStopAreaGids",
+                          "verificationStatus"
+                        ],
+                        "properties": {
+                          "description": {
+                            "type": "string"
+                          },
+                          "headsignHints": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "allowedDirectionGids": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "allowedStopPointGids": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "allowedPlatforms": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "mustPassStopAreaGids": {
+                            "type": "array",
+                            "items": {
+                              "type": "string"
+                            }
+                          },
+                          "verificationStatus": {
+                            "enum": [
+                              "pending",
+                              "verified"
+                            ]
+                          },
+                          "verifiedAt": {
+                            "type": [
+                              "string",
+                              "null"
+                            ]
+                          },
+                          "verificationNote": {
+                            "type": "string"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
