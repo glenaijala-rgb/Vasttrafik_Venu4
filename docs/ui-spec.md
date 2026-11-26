@@ -1,4 +1,7 @@
-# Bindande UI-spec v2.0 – Garmin Venu 4
+# Bindande UI-spec v2.1 – Garmin Venu 4
+
+## Fastställd snabbvy – alternativ A
+I Glance-listan ska kortet visa **de två närmaste ej inställda avgångarna sida vid sida**, exempel `753 3m | 25 8m`, med rubriken VÄSTTRAFIK · HEM (eller JOBB). Båda kan vara samma linje eller samma hållplats. Ingen egen Hållplats-knapp i snabbvyn: hela kortet öppnar fullvyn. Stor text, hög kontrast, kompakt cache, tydlig gammal-data-status. Se [docs/glance-spec.md](glance-spec.md) för normerande detaljkrav och tester.
 
 ## Principer
 Rund, mörk, högkontrastskärm. **Stora siffror** är viktigare än antalet samtidiga rader. En generisk vy som visar profilens avgångar från 1..N hållplatser i en **gemensam lista**, utan grupper.

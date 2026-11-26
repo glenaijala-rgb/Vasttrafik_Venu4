@@ -19,6 +19,9 @@
 ## Klocka
 - [ ] Riktigt manifest och kompilering för Venu 4 41/45 mm.
 - [ ] Stora siffror, blandade Hem-avgångar, Jobb, rullning, Hållplats-knapp.
+- [ ] **Glance A** visar två närmaste ej inställda avgångar sida vid sida, även om samma linje, i båda Venu 4-storlekarna.
+- [ ] Glance-kort öppnar fullvy, och Hållplats-knappen finns bara i fullvyn.
+- [ ] Testad Glance för 0/1/2+ avgångar, stale/offline, cache, inställd tur och profilväxling i riktig simulator.
 - [ ] Alla status- och felmeddelanden samt tidszoner fungerar.
 - [ ] USB-installation/sideload och test på fysisk Venu 4.
 - [ ] Test med verkliga avgångar jämförd mot officiell avgångsinformation.

@@ -48,6 +48,10 @@
         },
         "refreshOnOpen": {
           "type": "boolean"
+        },
+        "glanceMaxDepartures": {
+          "type": "integer",
+          "const": 2
         }
       }
     },

@@ -2,7 +2,8 @@
 
 **Codex ska skapa ett giltigt Connect IQ-projekt här** med manifest.xml, resources/ och source/. Stöd både Venu 4 41 mm och 45 mm. Garmin SDK och simulator används för riktig kompilering/test.
 
-- Watch-app eller widget enligt Connect IQ:s faktisk stödda app-typ för användningsflödet, dokumentera valet.
+- **Glance A är obligatoriskt**: `AppBase.getGlanceView()` + `WatchUi.GlanceView`, tillsammans med fullskärmsvy via `getInitialView()`. Välj korrekt app-typ i manifest efter kontroll i Garmin SDK.
+- Glance visar två närmaste ej inställda avgångar bredvid varandra från samma profil, stor text och ingen knapp. Använd cache-first och tydlig stale-/offline-status. Se docs/glance-spec.md.
 - Gemensam kronologisk listvy för varje profileId, oavsett antalet ingående hållplatser.
 - HEM öppnas alltid. Med exakt två profiler växlar knappen **Hållplats** direkt.
 - Stora linje- och minuttal, kort stationLabel och destination, scroll, lastUpdated och fel.

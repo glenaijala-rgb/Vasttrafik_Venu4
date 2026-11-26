@@ -8,7 +8,8 @@
     "searchHorizonMinutes": 180,
     "refreshOnOpen": true,
     "cacheTtlSeconds": 45,
-    "staleAfterSeconds": 180
+    "staleAfterSeconds": 180,
+    "glanceMaxDepartures": 2
   },
   "profiles": [
     {

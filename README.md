@@ -5,7 +5,8 @@
 ## Funktion
 - **Hem är alltid startläge.** En gemensam tidsordnad och rullbar avgångslista från Wennerbergsgatan, buss 753 mot Heden, samt Toltorpsskolan, buss 25 mot Hisingen.
 - **Jobb:** Kretsloppsparken med linje 78 mot Gamlestads Torg och 173 mot Heden i avsedd färdriktning. Lägg till andra avgångar först när färdriktningen är verifierad.
-- Hög kontrast och stora linje-/minutsiffror. Knappen **Hållplats** växlar Hem/Jobb med ett tryck.
+- **Snabbvy: alternativ A**, med två närmaste avgångar sida vid sida, stora linjenummer/minuter och Hem som standard. Ett tryck på kortet öppnar fullvyn.
+- **Fullskärmsvy:** hög kontrast, stora linje-/minutsiffror. Knappen **Hållplats** växlar Hem/Jobb med ett tryck.
 - Hämtar riktiga avgångstider via säker backend och Garmin Connect, ingen GPS behövs.
 
 ## Skalbar konfiguration
@@ -14,7 +15,7 @@ Alla profiler, hållplatser, linjer och riktningsregler ligger i **config/profil
 ## Dokument
 - [Codex-arbetsuppdrag](CODEX_START.md) och [AGENTS.md](AGENTS.md)
 - [Funktionskrav](docs/functional-spec.md)
-- [UI-krav](docs/ui-spec.md) och [interaktiv UI-skiss](docs/ui-preview.html)
+- [UI-krav](docs/ui-spec.md), [Glance A – fastställd spec](docs/glance-spec.md) och [interaktiv UI-skiss](docs/ui-preview.html)
 - [Arkitektur och datamodell](docs/architecture.md)
 - [Backend-API-kontrakt](docs/api-contract.md)
 - [Lägg till fler hållplatser och krav](docs/adding-stations.md)

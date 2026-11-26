@@ -17,19 +17,21 @@ h1{font-size:22px} p{line-height:1.45}.layout{display:flex;gap:32px;align-items:
 button{border:0;border-radius:14px;padding:7px 23px;background:#156fbc;color:white;font-weight:700;cursor:pointer}
 .status{font-size:11px;color:#bdc8d3}.warning{font-size:13px;color:#a34a00;font-weight:700}
 .controls{display:flex;gap:12px;align-items:center;flex-wrap:wrap}.note{font-size:13px;color:#5d6673}
-</style>
+.glance{box-sizing:border-box;background:#101c2b;border-radius:18px;padding:12px;color:#fff;display:flex;align-items:center;gap:12px;width:340px;max-width:100%;cursor:pointer}.glanceicon{background:#244964;color:#9cdbff;font-size:20px;border-radius:8px;padding:10px}.glancecontent{flex:1}.glanceheader{font-size:11px;font-weight:700;color:#a7c6dd}.glancerow{display:flex;justify-content:space-between;gap:8px;font-size:24px;font-weight:800}.glancerow b{color:#85d3ff}.glancesep{border-left:1px solid #425368}.previewtitle{font-weight:700;font-size:18px;margin:14px 0 8px}</style>
 </head>
 <body>
-<h1>Västtrafik – Garmin Venu 4 UI v2.0</h1>
+<h1>Västtrafik – Garmin Venu 4 UI v2.1 – Glance A</h1>
 <p class="warning">ENDAST UI-SKISS: alla avgångar och tider är påhittade. Ingen anslutning till Västtrafik.</p>
 <div class="controls"><label><input type="checkbox" id="larger"> Visa 45 mm</label><button id="reset">Återställ Hem</button></div>
-<div class="layout"><div class="watch" id="watch"><div class="mode" id="mode">HEM</div><div class="list" id="list"></div><div class="bottom"><button id="switch">Hållplats</button><span class="status">EXEMPEL · Uppd 16:24</span></div></div>
+<div class="previewtitle">Snabbvy: alternativ A (tryck för fullvy)</div><div class="glance" id="glance" role="button" tabindex="0"><div class="glanceicon" aria-hidden="true">▣</div><div class="glancecontent"><div class="glanceheader" id="glanceheader">VÄSTTRAFIK · HEM</div><div class="glancerow" id="glancerow"></div></div></div><div class="previewtitle" id="fullview">Fullskärmsvy</div><div class="layout"><div class="watch" id="watch"><div class="mode" id="mode">HEM</div><div class="list" id="list"></div><div class="bottom"><button id="switch">Hållplats</button><span class="status">EXEMPEL · Uppd 16:24</span></div></div>
 <div style="max-width:260px"><strong>Principer</strong><p>En blandad tidsordnad lista. Stort linjenummer och antal minuter. Kort hållplatsnamn på varje rad, ingen separat rubrik per hållplats. Rulla i klockan för fler avgångar.</p><p>Tryck Hållplats för att växla mellan Hem och Jobb.</p></div></div>
 <script>
 const times = [3,6,9,13,18,22,27,31,35,39,44,48,54,59,65,72];
 let profile="home";
 function render(){
 document.getElementById("mode").textContent=profile==="home"?"HEM":"JOBB";
+document.getElementById("glanceheader").textContent="VÄSTTRAFIK · "+(profile==="home"?"HEM":"JOBB");
+document.getElementById("glancerow").innerHTML=profile==="home"?"<span>753 <b>3m</b></span><span class=\"glancesep\"></span><span>25 <b>6m</b></span>":"<span>78 <b>3m</b></span><span class=\"glancesep\"></span><span>173 <b>6m</b></span>";
 let html=times.map((time,i)=>{
 let line,source,dest;
 if(profile==="home"){
@@ -46,6 +48,8 @@ document.getElementById("list").innerHTML=html;document.getElementById("list").s
 document.getElementById("switch").onclick=()=>{profile=profile==="home"?"work":"home";render();};
 document.getElementById("reset").onclick=()=>{profile="home";render();};
 document.getElementById("larger").onchange=e=>document.getElementById("watch").classList.toggle("large",e.target.checked);
+document.getElementById("glance").onclick=()=>document.getElementById("fullview").scrollIntoView({behavior:"smooth"});
+document.getElementById("glance").onkeydown=e=>{if(e.key==="Enter")document.getElementById("fullview").scrollIntoView({behavior:"smooth"});};
 render();
 </script>
 </body></html>

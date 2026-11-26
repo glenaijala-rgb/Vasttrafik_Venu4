@@ -1,4 +1,4 @@
-# Funktions- och teknisk specifikation v2.0
+# Funktions- och teknisk specifikation v2.1
 
 ## 1. Syfte
 Privat, **skarpt driftsatt** Garmin Connect IQ-widget för Venu 4 med Västtrafiks verkliga planerade och beräknade avgångar. Bygg inte en temporär mock-implementation som huvudspår. Tester får innehålla syntetiska fixtures. Klockan ska inte behöva egen GPS eller en mobilwebbsida.
@@ -22,7 +22,12 @@ En profil kan ha 1..N hållplatser. En hållplats kan ha 1..N filterregler. Varj
 
 **Utökning av config/profiles.json ska inte kräva ändring av klockans kod.** Backend och Garmin använder profil-ID i ett stabilt normaliserat API. Varje regel testas individuellt, sedan profilens samlade resultat.
 
-## 4. UI
+## 4. Snabbvy och fullvy
+- **Glance A:** två närmaste ej inställda avgångar från profilens gemensamma kronologiska lista, **sida vid sida** med stora linjenummer/minuter; även samma linje två gånger är tillåtet. Ingen uppdelning per hållplats.
+- Snabbvyn är startpunkt till interaktiv fullskärmsvy. Knappen **Hållplats** finns i fullvyn, inte i Glance. Hem är förvalt vid ny öppning.
+- Snabbvyn använder samma backend/data som fullvyn, med kompakt cache och tydligt meddelande vid gammal data. Se **docs/glance-spec.md** för bindande krav och edge cases.
+
+## 5. UI
 Se normerande docs/ui-spec.md. Stora primära siffror, hög kontrast, två raders objekt, sortering efter faktisk/beräknad avgångstid, fler resultat via scroll, status, fast knapp **Hållplats**. En synlig rad med kort ursprungshållplats identifierar alltid vilken station avgången gäller. Ingen gruppering under Hem.
 
 ## 5. Tid och filtrering
