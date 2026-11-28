@@ -1,5 +1,7 @@
 # Kontrollista innan skarp drift
 
+Aktuellt genomförande och verifierade resultat finns i [implementation-status.md](implementation-status.md). Kod finns nu, men rutorna nedan ska inte kryssas i enbart på grund av generell kompilering eller syntetiska tester.
+
 ## Extern data
 - [ ] Västtrafik utvecklarkonto och behörighet till API Planera Resa v4.
 - [ ] Klienthemligheter registrerade i säker driftmiljö, inte i Git.

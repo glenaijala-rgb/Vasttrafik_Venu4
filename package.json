@@ -1,14 +1,21 @@
 {
   "name": "vasttrafik-venu4",
   "private": true,
-  "version": "2.0.0",
+  "version": "2.1.0",
   "type": "module",
   "scripts": {
     "validate:config": "node scripts/validate-config.mjs",
     "test": "node --test tests/*.test.mjs",
-    "check": "npm run validate:config && npm test"
+    "check": "npm run validate:config && npm test",
+    "start": "node --env-file=backend/.env backend/src/server.mjs",
+    "generate:watch": "node scripts/generate-watch-config.mjs",
+    "verify:live": "node --env-file=backend/.env scripts/verify-live.mjs",
+    "discover:stops": "node --env-file=backend/.env scripts/discover-stops.mjs"
   },
   "engines": {
     "node": ">=20"
+  },
+  "dependencies": {
+    "ajv": "^8.20.0"
   }
 }

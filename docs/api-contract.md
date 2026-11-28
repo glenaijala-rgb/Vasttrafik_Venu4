@@ -1,6 +1,8 @@
 # Backend API-kontrakt v1 (eget kontrakt)
 
 Endast definierade profiler ska accepteras.
+- Alla `/api/v1/*` kräver `Authorization: Bearer <WATCH_ACCESS_KEY>`, separat från Västtrafiks nycklar. Fel nyckel ger 401 UNAUTHORIZED.
+- GET /api/v1/profiles returnerar schemaVersion, startupProfile och profiles med id/label.
 - GET /api/v1/departures?profile=home
 - GET /api/v1/departures?profile=work
 - GET /health (utan känsliga uppgifter)
@@ -42,3 +44,5 @@ Svar 200, **exempeldata nedan är inte riktiga avgångar**:
 - När profil-ID läggs till krävs ingen ändring av avgångs-JSON-kontraktet.
 
 Verifiera verkliga Västtrafik-fältnamn/svar med real API innan färdig kod låses.
+
+Bakåtkompatibla tillägg: `generatedEpoch` och `departureEpoch` är Unix-sekunder för klockan. `profileLabel`, `profiles` och `staleAfterSeconds` ingår i svaret; `platformChanged` tillkommer per avgång. `generatedAt` ändras inte när cache återanvänds. Passerade avgångar tas bort även ur cachade svar. Uppströmsfel ger felsvar, aldrig gammal data med ny tidsstämpel. `isPartial=true` markerar nådd pagineringsgräns.

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<iq:manifest xmlns:iq="http://www.garmin.com/xml/connectiq" version="3">
+  <iq:application id="bcd515557aa142dd95859be89997034a" type="watch-app" name="@Strings.AppName" entry="VasttrafikApp" launcherIcon="@Drawables.LauncherIcon" minApiLevel="5.1.0" version="2.1.0">
+    <iq:products><iq:product id="venu441mm"/><iq:product id="venu445mm"/></iq:products>
+    <iq:permissions><iq:uses-permission id="Communications"/></iq:permissions>
+    <iq:languages><iq:language>eng</iq:language><iq:language>swe</iq:language></iq:languages>
+    <iq:barrels/>
+  </iq:application>
+</iq:manifest>

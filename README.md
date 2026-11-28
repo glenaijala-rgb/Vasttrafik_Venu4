@@ -1,6 +1,6 @@
 # Västtrafik för Garmin Venu 4
 
-**Mål: skarp privat Connect IQ-app med realtidsavgångar, inte en demonstration.** Detta repo innehåller en produktionsinriktad krav- och projektstruktur för Codex. Klockapp och backend ska implementeras mot Västtrafiks riktiga Planera Resa API v4.
+**Mål: skarp privat Connect IQ-app med realtidsavgångar, inte en demonstration.** Backend och Monkey C-app är implementerade. Live-anslutning, Venu 4-enhetsbyggen och installation återstår. Börja med [installationsguiden](docs/installation.md).
 
 ## Funktion
 - **Hem är alltid startläge.** En gemensam tidsordnad och rullbar avgångslista från Wennerbergsgatan, buss 753 mot Heden, samt Toltorpsskolan, buss 25 mot Hisingen.
@@ -31,7 +31,9 @@ Alla profiler, hållplatser, linjer och riktningsregler ligger i **config/profil
 - **.github/workflows/** automatiska kontroller
 
 ## Verklig status
-**Projektstrukturen och specifikationen finns här. Klockapp och backend är ännu inte implementerade.** Ingen skarp anslutning är genomförd, eftersom Västtrafik-credentials och verifierade hållplats-GID:n saknas. Dessa får inte hittas på. Testdata/mockup får aldrig presenteras som livetraffik.
+**2026-11-28: implementerad, inte driftklar.** 29 automatiska Node-tester passerar. Appen och fyra native tester har kompilerats generellt med Garmin SDK 9.3.0. Klocktesterna har ännu inte körts. Venu 4-enhetsfiler saknas, så enhetsbygge, simulatorgranskning och klockinstallation återstår. API-nycklar, verifierade hållplatsriktningar och HTTPS-drift återstår också. Se [aktuell status](docs/implementation-status.md).
+
+Kör `npm ci` och `npm run check` från reporoten för lokal verifiering.
 
 Officiella API-dokument: https://github.com/vasttrafik/api-pr-docs/blob/main/docs/REST.md
 Garmin: https://developer.garmin.com/connect-iq/

@@ -1,5 +1,3 @@
-# Backend-moduler att implementera i Codex
+# Backendmoduler
 
-src/auth, src/config, src/client, src/rules, src/normalize, src/cache och src/http.
-
-Riktiga API-anrop ska vara huvudspåret. Inga dummy-GID:n eller syntetiska produktionssvar. Se AGENTS.md och CODEX_START.md.
+Se ../README.md och ../../docs/implementation-status.md för modulansvar och verifieringsstatus.

@@ -1,1 +1,3 @@
-Här ska Codex lägga Monkey C-källfilerna. Separera nätverksklient, JSON-modell, UI-renderer, input/scroll, fel/status, profilväxling och appens entrypoint. Detta är ingen körbar app än.
+# Monkey C
+
+Se ../README.md. StartupConfig.mc genereras från config/profiles.json. Testdata ingår inte i produktionsbygget.

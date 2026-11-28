@@ -1,21 +1,20 @@
-# Backend: skarp Västtrafik-proxy (implementation till Codex)
+# Backend
 
-**Här ska riktig backend-kod implementeras**, ingen mockserver i produktion. Rekommendation: TypeScript/Cloudflare Workers, om inget viktigare talar för Python/FastAPI.
+Node.js 24 med HTTP/fetch och Ajv för JSON-schema. Valet gör att samma kod kan testas på Windows utan molnkonto och köras i en container bakom HTTPS. Ingen molntjänst eller betald resurs har skapats.
 
-## Förväntade moduler
-- src/config: läs och validera config/profiles.json, kontrollera production-ready-regler
-- src/auth: OAuth2-bearer-token mot Västtrafik, hantera utgångna tokens
-- src/client: hämtning av stop-area/stop-point departures, ev. detail för riktning
-- src/rules: filtrering per linje och **verifierad riktning**, fail closed
-- src/normalize: beräknad/planerad tid, inställt, stopLabel, sortering, deduplicering
-- src/http: GET /api/v1/departures?profile=... samt begränsad health
-- src/cache: kort TTL, fel-/rate-limit-hantering
-- tests: regressionsfall för 753, 25, 78, 173 och framtida tillägg
+- token.mjs: OAuth2, token-cache och samtidiga tokenanrop.
+- client.mjs: v4-anrop, HTTPS, tidsgränser, explicit paginering, 401-förnyelse och 429-paus.
+- normalize.mjs: verifierade AND-villkor, flyttade hållplatslägen, tider, inställda anrop, passage efter aktuell hållplats, sortering och dubbletter.
+- service.mjs: generiska profiler, 45 sekunders cache, coalescing, 15 sekunders felbackoff och gemensam tidsbudget. Fel på en station avbryter hela profilen.
+- server.mjs: privat Bearer-skydd, profiler, 60 autentiserade anrop/minut/process och neutrala felsvar.
 
-## Skarpa villkor
-- Miljön tillhandahåller VASTTRAFIK_CLIENT_ID, VASTTRAFIK_CLIENT_SECRET samt **API- och token-URL från utvecklarportalen**, aldrig i Git.
-- Inga påhittade stopAreaGid; kontrollera live via locations/by-text och faktiska departures/details.
-- Fail closed: oklara riktningsregler ska inte tyst släppa igenom turer. Ange CONFIG_INCOMPLETE.
-- En begränsad och gärna åtkomstskyddad endpoint, med rimlig rate-limit. En statisk klientnyckel i klockan är inte en perfekt säkerhetsgräns.
-- Endast tillgänglig Västtrafik-data visas. Syntetiska exempel finns i docs/ui-preview.html och tester, aldrig i skarp respons.
-- Implementationsförslag och release-gate finns i docs/release-checklist.md.
+Skapa backend/.env med scripts/setup-secrets.ps1 och kör npm start från reporoten. /health är en liveness-kontroll, inte ett bevis på fungerande live-data.
+
+Container: docker build -f backend/Dockerfile -t vasttrafik-venu4 .
+Kör en instans bakom HTTPS med giltigt certifikat. Containerbygget är förberett men inte verifierat på denna dator. Driftplattform och eventuell kostnad måste väljas före extern driftsättning. Produktionshemligheter tillhandahålls av driftplattformen; .env kopieras inte till containern.
+
+WATCH_ACCESS_KEY skyddar bara denna installations avgränsade API. Västtrafiks klienthemlighet lämnar aldrig servern. Appnyckeln ersätter inte rate limiting. Flera serverinstanser kräver gemensamt rate-limit/cache-lager.
+
+Alla regelarrayer kombineras med OCH; värden inom en array är alternativ. allowedDirectionGids skickas som directionGid till Västtrafik; directionDetails innehåller inget destinations-GID. headsignHints är metadata. Aktiva regler måste vara verifierade. Oväntad hållplatsflytt släpps inte igenom ett stopPoint-filter.
+
+Officiell OpenAPI-definition granskad på https://developer.vasttrafik.se/apis/13/v4 den 2026-11-28. Live-svar ska fortfarande verifieras.

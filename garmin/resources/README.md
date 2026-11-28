@@ -1,1 +1,3 @@
-Garmin-strängresurser, eventuella ikoner och layout. Texter: Hållplats, Hem, Jobb, Hämtar, Ingen anslutning, Inga avgångar, Gammal data, Inställd. Anpassa 41/45 mm.
+# Resurser
+
+resources.xml innehåller namn, ikon och inställningsdefinitioner. Inga riktiga nycklar lagras i resurserna. launcher.svg är appens lokala bussikon.

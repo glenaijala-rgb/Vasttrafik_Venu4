@@ -1,12 +1,16 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { dirname, resolve } from "node:path";
+import Ajv2020 from 'ajv/dist/2020.js';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
+const schema = JSON.parse(readFileSync(resolve(root, 'config/profiles.schema.json'), 'utf8'));
+const schemaCheck = new Ajv2020({ allErrors: true, strict: false }).compile(schema);
 export const loadConfig = (path = resolve(root, "config/profiles.json")) =>
   JSON.parse(readFileSync(path, "utf8"));
 
 export function validateConfig(config, { production = false } = {}) {
+  if (!schemaCheck(config)) return schemaCheck.errors.map(e => `${e.instancePath}: ${e.message}`);
   const errors = [];
   const fail = (p, message) => errors.push(p + ": " + message);
   const unique = (xs, path) => {
@@ -30,6 +34,11 @@ export function validateConfig(config, { production = false } = {}) {
   if (!Number.isInteger(config?.defaults?.maxUpcomingDepartures) || config.defaults.maxUpcomingDepartures < 1) {
     fail("defaults.maxUpcomingDepartures", "must be a positive integer");
   }
+  for (const key of ['searchHorizonMinutes', 'cacheTtlSeconds', 'staleAfterSeconds']) {
+    if (!Number.isInteger(config.defaults[key]) || config.defaults[key] < 1) fail('defaults.' + key, 'positive integer required');
+  }
+  if (config.defaults.cacheTtlSeconds > config.defaults.staleAfterSeconds) fail('defaults', 'cache TTL exceeds stale threshold');
+  if (config.defaults.searchHorizonMinutes > 1440) fail('defaults', 'search horizon exceeds 24 hours');
   for (const profile of profiles) {
     const pp = "profiles." + profile.id;
     if (!profile.label || typeof profile.label !== "string") fail(pp + ".label", "required");
@@ -41,7 +50,7 @@ export function validateConfig(config, { production = false } = {}) {
     for (const st of profile.stations) {
       const sp = pp + ".stations." + st.key;
       if (!st.name || !st.shortLabel) fail(sp, "name and shortLabel required");
-      if (production && !st.stopAreaGid) fail(sp + ".stopAreaGid", "unverified in production");
+      if (production && !/^9021\d{12}$/.test(st.stopAreaGid ?? '')) fail(sp + ".stopAreaGid", "verified StopArea GID required in production");
       if (!Array.isArray(st.criteria) || !st.criteria.length) {
         fail(sp + ".criteria", "at least one criterion required");
         continue;
@@ -62,6 +71,11 @@ export function validateConfig(config, { production = false } = {}) {
             fail(cp + ".direction", "production rule needs a verified structured direction selector");
           }
           if (!d.verifiedAt || Number.isNaN(Date.parse(d.verifiedAt))) fail(cp + ".direction.verifiedAt", "valid ISO timestamp required");
+          if (!d.verificationNote?.trim()) fail(cp + '.direction.verificationNote', 'verification evidence required');
+          for (const key of ['allowedDirectionGids', 'allowedStopPointGids', 'mustPassStopAreaGids']) {
+            const pattern = key === 'allowedStopPointGids' ? /^9022\d{12}$/ : /^9021\d{12}$/;
+            if (d[key].some(id => !pattern.test(id))) fail(cp + '.' + key, 'invalid GID');
+          }
         }
       }
     }

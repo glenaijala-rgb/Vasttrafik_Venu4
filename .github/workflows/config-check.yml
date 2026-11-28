@@ -1,4 +1,4 @@
-name: Validate configuration
+name: Validate and test
 on:
   push:
   pull_request:
@@ -9,5 +9,8 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
+          cache: npm
+      - run: npm ci --ignore-scripts
       - run: npm run check
+      - run: npm run generate:watch && git diff --exit-code -- garmin/source/StartupConfig.mc
