@@ -1,13 +1,13 @@
 # Västtrafik för Garmin Venu 4
 
-**Mål: skarp privat Connect IQ-app med realtidsavgångar, inte en demonstration.** Backend och Monkey C-app är implementerade. Live-anslutning, Venu 4-enhetsbyggen och installation återstår. Börja med [installationsguiden](docs/installation.md).
+**Mål: skarp privat Connect IQ-app med realtidsavgångar, inte en demonstration.** Appen ansluter direkt till Västtrafik. Ingen egen server eller hostingtjänst behövs. Fysisk klockinstallation återstår. Börja med [installationsguiden](docs/installation.md).
 
 ## Funktion
 - **Hem är alltid startläge.** En gemensam tidsordnad och rullbar avgångslista från Wennerbergsgatan, buss 753 mot Heden, samt Toltorpsskolan, buss 25 mot Hisingen.
 - **Jobb:** Kretsloppsparken med linje 78 mot Gamlestads Torg och 173 mot Heden i avsedd färdriktning. Lägg till andra avgångar först när färdriktningen är verifierad.
 - **Snabbvy: alternativ A**, med två närmaste avgångar sida vid sida, stora linjenummer/minuter och Hem som standard. Ett tryck på kortet öppnar fullvyn.
 - **Fullskärmsvy:** hög kontrast, stora linje-/minutsiffror. Knappen **Hållplats** växlar Hem/Jobb med ett tryck.
-- Hämtar riktiga avgångstider via säker backend och Garmin Connect, ingen GPS behövs.
+- Hämtar riktiga avgångstider direkt från Västtrafik via Garmin Connect, ingen GPS behövs.
 
 ## Skalbar konfiguration
 Alla profiler, hållplatser, linjer och riktningsregler ligger i **config/profiles.json**. Varje profil innehåller valfritt antal stationsobjekt; varje station innehåller valfritt antal criteria. Ett tillägg ska normalt endast kräva konfigurationsändring, validering och test, **inte nya Monkey C-vyer**.
@@ -31,7 +31,7 @@ Alla profiler, hållplatser, linjer och riktningsregler ligger i **config/profil
 - **.github/workflows/** automatiska kontroller
 
 ## Verklig status
-**2026-11-28: implementerad, inte driftklar.** 35 automatiska Node-tester passerar. Appen bygger för Venu 4 41/45 mm med Garmin SDK 9.3.0. Fem native tester passerar på vardera simulatorn. Glance och fullvy har granskats med cache från verkliga API-svar. Fysisk klockinstallation och fullständigt HTTPS-flöde återstår. OAuth, hållplatsriktningar och lokal HTTP-hämtning av verklig realtidsdata är verifierade. HTTPS-drift återstår. Se [aktuell status](docs/implementation-status.md).
+**2026-11-28: implementerad, inte driftklar.** Direkt OAuth och verkliga avgångar fungerar i Garmin-simulatorn. Byggen finns för 41 och 45 mm. Fysisk installation och kontroll på klockan återstår. Se [aktuell status](docs/implementation-status.md) och [direktanslutning](docs/direct-mode.md).
 
 Kör `npm ci` och `npm run check` från reporoten för lokal verifiering.
 

@@ -7,7 +7,7 @@
 - Monkey C med Glance A, fullvy, profilbyte, cache, rullning och status implementerad.
 - Garmin SDK 9.3.0 hämtat. Produkt-ID:n bekräftade i SDK:s ConfigurableWatchFace/manifest.xml.
 - npm run check: **35/35 tester godkända**. Syntetiska data finns endast i tester/förhandsvisning.
-- Enhetsbyggen venu441mm och venu445mm: **BUILD SUCCESSFUL**. Fem native tester: **5/5 PASS på vardera enheten** i Garmin-simulatorn.
+- Enhetsbyggen venu441mm och venu445mm: **BUILD SUCCESSFUL**. Nio native tester: **9/9 PASS på vardera enheten** i Garmin-simulatorn.
 - Simulatorgranskning: Glance A och fullvy på båda storlekarna med nyligen hämtade verkliga API-svar i cache. Hem/Jobb-byte på 41 mm, rullning på 45 mm och gammal-cache-varning på 45 mm kontrollerade. Se [simulatorkontroll](simulator-verification.md).
 - Lokal HTTP-test: 200 health, 401 utan nyckel, 400 fel profil, 503 ofärdig konfiguration och 429 rate limit.
 - Ingen extern driftsättning, Store-publicering eller klockinstallation.
@@ -17,11 +17,11 @@
 1. Västtrafik-konto, API-prenumeration och OAuth är nu verifierade.
 2. Samtliga regler har verifierade hållplatslägen och status verified. Se [live-verifiering](live-verification.md). Lokal HTTP-kontroll gav 200 för båda profilerna: Hem 16 avgångar (15 med realtid), Jobb 6 (alla med realtid). 173 verifierades i vardagens tidtabell.
 3. Enhetsfilerna är installerade. Båda enhetsbyggena och native testerna är godkända.
-4. Återstående acceptans: fullständigt HTTPS-flöde från Garmin, verkligt anslutningsbortfall, hela profil-livscykeln och visuell edge-case-matris (0/1/inställt/långa texter) på båda storlekarna. Logiska cachefallen täcks av native tester.
-5. Välj HTTPS-host och verifiera container, TLS, appnyckel och sideload-inställningar.
+4. Direkt OAuth/HTTPS från Garmin-simulatorn till Västtrafik har verifierats på 41 och 45 mm. Hem visar riktiga 25/753-avgångar och Jobb visar 78 i rätt riktning. Återstående acceptans: fysisk klocka, verkligt anslutningsbortfall och full visuell edge-case-matris (0/1/inställt/långa texter). Logiska cachefallen täcks av native tester.
+5. Egen HTTPS-host behövs inte efter användarens beslut om direktanslutning. Privata inställningar är förberedda lokalt.
 6. Installera på klockan och jämför verkliga avgångar.
 
-**Implementerad och delvis verifierad, inte driftklar.** Simulatorprov ersätter inte fysisk klocktest eller HTTPS-integration.
+**Implementerad och delvis verifierad, inte driftklar.** Simulatorprov ersätter inte fysisk klocktest.
 
 ## API-dokumentationskontroll
 
@@ -36,3 +36,7 @@
 - directionDetails är textkomponenter, inte ett destinations-GID. GID-filtret tillämpas i avgångsfrågan.
 
 API-kvot och verkliga svar ska följas upp med användarens konto före drift.
+
+## Direktläge utan hosting
+
+Se [arkitekturbeslut](direct-mode.md). Ingen extern tjänst har satts upp. Produktionsfilerna för båda storlekarna har kontrollerats mot de verkliga nyckelvärdena och innehåller inga sådana värden. Den separata privata SET-filen innehåller båda nycklarna och ignoreras av Git. Installationsmapparna är hashkontrollerade och skyddade med Windows-filbehörigheter för den aktuella användaren. Ingen fysisk Garmin-enhet var ansluten vid kontrollen.

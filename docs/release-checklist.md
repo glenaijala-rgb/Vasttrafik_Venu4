@@ -1,3 +1,5 @@
+> **Beslut 2026-11-28:** Användaren har valt direktanslutning till Västtrafik utan egen server och godkänt API-nycklar i klockans privata inställningar. Detta ersätter äldre krav på backenddrift och backend-only secrets nedan. Nycklar får fortfarande aldrig finnas i Git, källkod eller distribuerad appfil. Se [direktanslutning](direct-mode.md).
+
 # Kontrollista innan skarp drift
 
 Aktuellt genomförande och verifierade resultat finns i [implementation-status.md](implementation-status.md). Kod finns nu, men rutorna nedan ska inte kryssas i enbart på grund av generell kompilering eller syntetiska tester.

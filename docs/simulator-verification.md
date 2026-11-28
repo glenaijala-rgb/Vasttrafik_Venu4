@@ -20,3 +20,7 @@ Visuellt kontrollerat:
 - Saknad serverinställning visas tydligt i fullvyn.
 
 Begränsningar: ingen sammanhängande HTTPS-anslutning från simulatorn, fysisk klockinstallation eller verkligt BLE/offline-prov ännu. Alla visuella edge cases och hela Glance/fullvy-livscykeln är inte färdigprovade på båda modellerna. Backendens verkliga HTTP-flöde verifierades separat. Appen är därför inte driftklar.
+
+## Direktanslutning 2026-11-28
+
+Produktionsappen har nu själv hämtat OAuth-token och avgångssvar över HTTPS från Västtrafik på båda Venu 4-storlekarna. Hem: verkliga 25/753 med förseningar; Jobb på 41 mm: 78 mot Gamlestads Torg. Efter omstart visar Glance A samma direktdata, två avgångar sida vid sida, på både 41 och 45 mm. Inga fixtures matades in i detta prov. Fem avgångar per API-sida undviker den NETWORK_RESPONSE_TOO_LARGE (-402) som uppstod med 20. Native tests: 9/9 per storlek; Node tests: 35/35. Fysisk enhet och bortfall av telefonanslutning återstår.

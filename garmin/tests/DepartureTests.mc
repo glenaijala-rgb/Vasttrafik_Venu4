@@ -3,6 +3,11 @@ import Toybox.Test;
 import Toybox.Time;
 import Toybox.Application;
 
+(:test)
+class OfflineDepartureModel extends DepartureModel {
+    function refresh() { }
+}
+
 // Synthetic rows exist only in this test target, never in the production app.
 (:test)
 function cacheSelectsChronologicalNonCancelledCalls(logger) as Boolean {
@@ -51,7 +56,7 @@ function lateProfileResponseDoesNotChangeCurrentProfile(logger) as Boolean {
 
 (:test)
 function profileStringsAndStoredResponsesUseValueEquality(logger) as Boolean {
-    var model = new DepartureModel();
+    var model = new OfflineDepartureModel();
     model.profile = "ho" + "me";
     Test.assert(model.label().equals("Hem"));
     var now = Time.now().value();

@@ -11,6 +11,8 @@ bin/
 .env.*
 !.env.example
 *.secret
+*.SET
+*.set
 secrets*.json
 # Node
 node_modules/

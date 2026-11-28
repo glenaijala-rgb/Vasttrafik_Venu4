@@ -1,6 +1,6 @@
 # Kom igång – steg för steg
 
-Backend hämtar nu riktiga avgångar. Konto, nycklar och hållplatsverifiering är klara på denna dator. Garmin-enhetsfiler och båda byggena är också klara. Fortsätt med steg 5; guiden behåller tidigare steg för nyinstallation.
+Appen hämtar nu riktiga avgångar direkt från Västtrafik. Ingen egen server behövs. Kontot, nycklarna, hållplatsverifieringen och SDK-byggena är klara på denna dator.
 
 ## 1. Västtrafik-kontot
 
@@ -35,22 +35,21 @@ Säg till Codex: **Kontot och nycklarna är klara.** Skicka inte själva nycklar
 
 ## 4. Garmin-verktygen
 
-SDK 9.3.0 finns i D:\dev-cache\garmin\sdk. Java finns i Android Studios installation. Enhetsfiler för båda Venu 4-storlekarna är installerade; fem native tester per storlek passerar.
+SDK 9.3.0 finns i D:\dev-cache\garmin\sdk. Java finns i Android Studios installation. Enhetsfiler för båda Venu 4-storlekarna är installerade; nio native tester per storlek passerar.
 
 1. Öppna D:\dev-cache\garmin\manager\sdkmanager.exe i Utforskaren. Om inget fönster öppnas, kontrollera om en kvarvarande dold sdkmanager-process blockerar starten. Den tidigare låsningen löstes genom att avsluta just den processen och starta programmet på nytt.
 2. Logga in med ditt Garmin-konto om programmet begär det.
 3. Under **Devices**, installera **Venu 4 41mm** och **Venu 4 45mm**. SDK Manager kan också behöva välja aktiv SDK.
 4. Meddela Codex när enheterna är installerade. Då kan båda byggena, native testerna och verkliga Glance-format kontrolleras.
 
-## 5. Server och klockinstallation
+## 5. Klockinstallation utan server
 
-Servern behöver en beständig HTTPS-adress med giltigt certifikat så att Garmin Connect når den. Driftplattform, konto och eventuell kostnad är ännu inte valda. Ingen extern drift har skapats.
+1. Anslut din Venu 4 med USB-kabeln. Ange om det är 41 eller 45 mm.
+2. Använd rätt produktionsfil: garmin/bin/venu441mm.prg respektive garmin/bin/venu445mm.prg. Kopiera den till klockans GARMIN/APPS med namnet VASTTRAFIK.PRG.
+3. Kopiera den privata filen garmin/local/VASTTRAFIK.SET till klockans GARMIN/APPS/SETTINGS/VASTTRAFIK.SET. Filen innehåller API-inställningarna och får inte delas.
+4. Koppla från klockan säkert. Kontrollera att den är ansluten till Garmin Connect på telefonen och att telefonen har internet.
+5. Öppna Västtrafik. Hem ska visa 753 och 25. Knappen Hållplats växlar till Jobb. Jämför avgångarna med Västtrafik och prova rullning samt snabbvyn.
 
-Efter godkända simulatorbyggen och driftsatt server:
+På denna dator är inställningsfilen förberedd med simulatorns lokala Properties-API. Se [direktanslutning](direct-mode.md). För nyinstallation på annan dator måste en ny privat inställningsfil förberedas; kopiera aldrig nycklar till källkod eller chatten.
 
-1. Ställ in BackendUrl till serveradressen och WatchAccessKey till den separata privata appnyckeln, inte Västtrafiks hemlighet.
-2. Vid sideload: spara .set-filen från simulatorns App Settings Editor. Verifiera den faktiska inställningsfilen och filnamnet före kopiering. Mobilappen kan sakna inställningar för sideloadade appar.
-3. Anslut klockan med USB. Kopiera rätt enhetsbyggda .prg till GARMIN/APPS och den verifierade .set-filen till GARMIN/APPS/SETTINGS enligt Garmins sideload-flöde.
-4. Koppla från säkert. Jämför verkliga avgångar med Västtrafik. Kontrollera Hem/Jobb, svepning, flygläge och gammal data.
-
-Installera **aldrig syntax-check.prg eller syntax-tests.prg**. De är generella kompileringskontroller, inte Venu 4-byggen.
+Installera aldrig syntax-check.prg, testbyggen eller provisioning.prg på klockan. Fysisk installation, anslutningsbortfall och livejämförelse på klockan återstår innan appen kan kallas driftklar.

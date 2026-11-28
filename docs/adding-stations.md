@@ -1,3 +1,5 @@
+> **Beslut 2026-11-28:** Användaren har valt direktanslutning till Västtrafik utan egen server och godkänt API-nycklar i klockans privata inställningar. Detta ersätter äldre krav på backenddrift och backend-only secrets nedan. Nycklar får fortfarande aldrig finnas i Git, källkod eller distribuerad appfil. Se [direktanslutning](direct-mode.md).
+
 # Så lägger vi till nya hållplatser, linjer och regler
 
 **Mål:** Inga kodändringar i Garmin-appen när en ny hållplats läggs till i en befintlig profil.
@@ -16,7 +18,7 @@ config/profiles.json är sanningskälla. Strukturen är:
 4. Verifiera med verkliga avgångssvar och vid behov detaljer för servicejourneycalls vilka destinationGid, plattform/stopPoint och eventuella via-stopp som faktiskt gäller.
 5. Sätt endast status 'verified' och datum efter dokumenterad kontroll. Fyll i minst ett strukturerat riktningskriterium. Spara inte lösningen genom att filtrera bara på rå headsign-sträng.
 6. Lägg till regressionstest för tillåten/otillåten linje, rätt/fel riktning och förväntat kortnamn.
-7. Kör validering och CI. Deploya backend. **Ingen Monkey C-ändring behövs.**
+7. Kör validering och CI. Generera klockkonfiguration och bygg/installera appen på nytt. **Ingen handskriven Monkey C-ändring behövs.**
 
 ## Ny linje/riktning på befintlig hållplats
 Lägg till ett nytt criterion med unikt id i samma stationsobjekt. Flera destinationer för en linje kan ligga i samma regel om de är ekvivalenta; skilda korridorer bör vara separata regler.

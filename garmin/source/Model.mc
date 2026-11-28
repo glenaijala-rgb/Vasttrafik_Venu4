@@ -1,5 +1,4 @@
 import Toybox.Application;
-import Toybox.Communications;
 import Toybox.Lang;
 import Toybox.Time;
 import Toybox.WatchUi;
@@ -39,22 +38,12 @@ class DepartureModel {
     function refresh() {
         var now = Time.now().value();
         if (busy || now - lastRequest < 15) { return; }
-        var url = Application.Properties.getValue("BackendUrl");
-        var key = Application.Properties.getValue("WatchAccessKey");
-        if (!(url instanceof Lang.String) || url.length() < 9 || !url.substring(0, 8).equals("https://") ||
-            !(key instanceof Lang.String) || key.length() < 32) {
-            status = "Ställ in server och nyckel"; WatchUi.requestUpdate(); return;
+        if (data != null && DepartureCache.fresh(data) && now-data["generatedEpoch"] < DirectConfig.TTL) {
+            status = "Uppdaterad"; WatchUi.requestUpdate(); return;
         }
-        if (url.substring(url.length()-1, url.length()).equals("/")) { url = url.substring(0, url.length()-1); }
         busy = true; lastRequest = now; status = "Hämtar...";
-        request = new DepartureRequest(self, profile, generation);
-        try {
-            Communications.makeWebRequest(url + "/api/v1/departures", {"profile" => profile}, {
-                :method => Communications.HTTP_REQUEST_METHOD_GET,
-                :headers => {"Authorization" => "Bearer " + key},
-                :responseType => Communications.HTTP_RESPONSE_CONTENT_TYPE_JSON
-            }, request.method(:received));
-        } catch (e) { busy = false; status = "Ingen anslutning"; }
+        request = new DirectRequest(self, profile, generation);
+        try { request.start(); } catch(e) { receive(profile,generation,502,null); }
         WatchUi.requestUpdate();
     }
     function receive(id, version, code, result) {
@@ -79,7 +68,7 @@ class DepartureModel {
                 Application.Storage.setValue("glance_" + profile, compact);
             } catch (e) { status = "Cache kunde inte sparas"; }
         } else {
-            status = code == 503 ? "Konfiguration saknas" : code == 401 ? "Kontrollera appnyckel" :
+            status = code == 503 ? "Konfiguration saknas" : code == 401 ? "Ställ in API-nycklar" :
                 code == 429 ? "Vänta, försök igen" : code == 502 ? "Trafikdata otillgänglig" : "Ingen anslutning";
             // Invalid configuration/auth must not leave old times looking operational.
             if (code == 503 || code == 401) {
@@ -103,10 +92,4 @@ class DepartureModel {
         }
         return true;
     }
-}
-
-class DepartureRequest {
-    var owner; var profile; var generation;
-    function initialize(model, id, version) { owner = model; profile = id; generation = version; }
-    function received(code as Lang.Number, data as Communications.ContentType or Null) as Void { owner.receive(profile, generation, code, data); }
 }

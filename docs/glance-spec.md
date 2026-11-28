@@ -1,3 +1,5 @@
+> **Beslut 2026-11-28:** Användaren har valt direktanslutning till Västtrafik utan egen server och godkänt API-nycklar i klockans privata inställningar. Detta ersätter äldre krav på backenddrift och backend-only secrets nedan. Nycklar får fortfarande aldrig finnas i Git, källkod eller distribuerad appfil. Se [direktanslutning](direct-mode.md).
+
 # Garmin Venu 4 – Snabbvy (Glance), alternativ A v2.1
 
 **Beslut:** Två närmaste relevanta avgångar **bredvid varandra**, med stora linjenummer och minuter. Exempel: `753 3m | 25 8m`. Detta är en komplettering till den fullständiga listvyn, inte en separat datatjänst.

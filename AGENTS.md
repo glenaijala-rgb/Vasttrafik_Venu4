@@ -1,3 +1,5 @@
+> **Beslut 2026-11-28:** Användaren har valt direktanslutning till Västtrafik utan egen server och godkänt API-nycklar i klockans privata inställningar. Detta ersätter äldre krav på backenddrift och backend-only secrets nedan. Nycklar får fortfarande aldrig finnas i Git, källkod eller distribuerad appfil. Se [direktanslutning](docs/direct-mode.md).
+
 # Instruktioner till Codex
 
 Bygg **den avsedda skarpa lösningen**, inte en prototyp som behöver skrivas om. Läs CODEX_START.md och docs/functional-spec.md, docs/ui-spec.md, **docs/glance-spec.md**, docs/architecture.md, docs/api-contract.md och docs/adding-stations.md före implementation.

@@ -1,3 +1,5 @@
+> **Beslut 2026-11-28:** Användaren har valt direktanslutning till Västtrafik utan egen server och godkänt API-nycklar i klockans privata inställningar. Detta ersätter äldre krav på backenddrift och backend-only secrets nedan. Nycklar får fortfarande aldrig finnas i Git, källkod eller distribuerad appfil. Se [direktanslutning](docs/direct-mode.md).
+
 # Codex: startuppdrag för skarp version 2.1
 
 Implementera den skarpa Västtrafik-widgeten enligt docs/functional-spec.md, docs/ui-spec.md och **docs/glance-spec.md** (fastställt alternativ A). Återanvänd och håll config/profiles.json som den enda källan för profilernas hållplatser, linjer och riktningsvillkor.

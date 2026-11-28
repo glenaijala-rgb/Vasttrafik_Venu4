@@ -1,26 +1,13 @@
-# Teknisk arkitektur och ansvar
+# Arkitektur: direktanslutning
 
-Garmin Venu 4 (Connect IQ/Monkey C)
--> Bluetooth + Garmin Connect på telefon
--> HTTPS GET /api/v1/departures?profile=...
--> säker liten backend (rekommenderad TypeScript/Cloudflare Worker)
--> Västtrafik Planera Resa API v4 + OAuth2
+Beslut 2026-11-28: klockan ansluter direkt till Västtrafik med egna privata API-inställningar. Ingen egen server eller hostingtjänst krävs. Se [beslut, moduler och begränsningar](direct-mode.md).
 
-## Backendens moduler (rekommenderad)
-- **Config loader/schema validation:** en profil har N stationer, station N criteria; fail-closed om obligatoriska regler är pending.
-- **OAuth provider:** använder miljöhemligheter, tokenförnyelse och återförsök; aldrig token i Git.
-- **Västtrafik client:** requests till stop-area-departures, stop-point-departures och details vid verifieringsbehov; timeouts och hantering av 429/5xx.
-- **Rule engine:** tillåtna linjer OCH verifierad riktning/hållplatsläge/passage. Hints och preliminära platformkandidater är metadata för upptäckt och får inte styra liveläget.
-- **Normalizer/merger:** samma utgående Departure-format oavsett källa; deduplicera verkliga dubletter; sortera med beräknad eller planerad tid.
-- **Cache/server:** cache 30–60 sek, rate limiting, allowlist för profilsökningar, hälsokontroll utan känslig data.
-- **Tests:** konfigurationsvalidering, filtrering, sammanflätning, felsteg, schemakontrakt och skarpa API-samples (med redigerade hemligheter).
+Venu 4 (Monkey C) → Garmin Connect på telefonen → HTTPS/OAuth2 → Planera Resa API v4.
 
-## Kritiska designbeslut
-1. Klockan känner **inte** till hållplats-ID:n. Endast profil-ID:t och normaliserade avgångsobjekt skickas till Garmin.
-2. Backend har **inga specialfall för Hem eller Jobb**. Profilernas beteende definieras enbart i konfigurationen.
-3. JSON-konfiguration kan expanderas utan att ändra API-kontrakt eller layout.
-4. OAuth-auth, GID-verifiering, rate limiting och tokenrotationsprocess dokumenteras före live-drift.
-5. Välj ett hanterbart driftalternativ med HTTPS och säker sekretesslagring. Backend är inte en allmänt fri Västtrafik-proxy.
-6. Dokumentera om klockans nätverksanrop, minnesgränser eller app-behörigheter kräver SDK-specifika anpassningar.
+Fullvyn hämtar data, filtrerar generiskt enligt den genererade konfigurationen och sparar full cache samt kompakt Glance-cache. Glance visar de två närmaste ej inställda avgångarna och hämtar inte data själv. Ny öppning börjar på Hem.
 
-Källor: https://github.com/vasttrafik/api-pr-docs/blob/main/docs/REST.md och https://developer.garmin.com/connect-iq/articles/core-topics/HTTPS.html
+Config/profiles.json är enda källa för profiler, stationer och kriterier. generate-watch-config.mjs validerar och genererar DirectConfig.mc samt StartupConfig.mc. Pending-konfiguration stoppar nätflödet. Inga hållplatsspecifika UI-villkor finns.
+
+DirectClient sköter OAuth och paginering; DirectRules sköter normalisering, riktningar, delinställda turer och tidsordning; Model/Cache sköter generationsskydd vid profilbyte, status och cache. API-hemligheter lagras separat i Application.Properties. Se direct-mode.md för den accepterade säkerhetsavvägningen.
+
+Backendens separata token/client/config/rules/service/server-moduler behålls som lokala verifieringsverktyg och referens för regeltester. Backendens HTTP-kontrakt ändras inte och ingen extern backend har satts upp.
