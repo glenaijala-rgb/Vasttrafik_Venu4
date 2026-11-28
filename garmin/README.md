@@ -1,3 +1,9 @@
+# V2.2 – implementation
+
+Källkod finns nu. Se [V2.2-dokumentation](../docs/v2.2-ak-hem.md) för gällande funktion, drift och verifiering. Äldre text nedan är historisk specifikation.
+
+---
+
 # Garmin-app i Monkey C
 
 **Codex ska skapa ett giltigt Connect IQ-projekt här** med manifest.xml, resources/ och source/. Stöd både Venu 4 41 mm och 45 mm. Garmin SDK och simulator används för riktig kompilering/test.
