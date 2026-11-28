@@ -91,7 +91,7 @@ class DeparturesDelegate extends WatchUi.BehaviorDelegate {
     function switchProfile() {
         view.offset = 0;
         if (model.profiles.size() == 2) {
-            model.selectProfile(model.profiles[0]["id"] == model.profile ? model.profiles[1]["id"] : model.profiles[0]["id"]);
+            model.selectProfile(model.profile.equals(model.profiles[0]["id"]) ? model.profiles[1]["id"] : model.profiles[0]["id"]);
         } else {
             var menu = new WatchUi.Menu2({:title => "Hållplats"});
             for (var i = 0; i < model.profiles.size(); i += 1) { var p = model.profiles[i]; menu.addItem(new WatchUi.MenuItem(p["label"], null, p["id"], null)); }

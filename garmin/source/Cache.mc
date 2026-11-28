@@ -7,7 +7,7 @@ module DepartureCache {
     function read(profile) {
         try {
             var data = Application.Storage.getValue("data_" + profile);
-            if (data instanceof Lang.Dictionary && data["schemaVersion"] == 1 && data["profileId"] == profile &&
+            if (data instanceof Lang.Dictionary && data["schemaVersion"] == 1 && profile.equals(data["profileId"]) &&
                 data["generatedEpoch"] instanceof Lang.Number && data["departures"] instanceof Lang.Array) { return data; }
         } catch (e) { }
         return null;

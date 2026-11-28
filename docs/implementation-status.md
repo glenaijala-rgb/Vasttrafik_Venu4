@@ -7,7 +7,8 @@
 - Monkey C med Glance A, fullvy, profilbyte, cache, rullning och status implementerad.
 - Garmin SDK 9.3.0 hämtat. Produkt-ID:n bekräftade i SDK:s ConfigurableWatchFace/manifest.xml.
 - npm run check: **35/35 tester godkända**. Syntetiska data finns endast i tester/förhandsvisning.
-- Generell Monkey C-kompilering: **BUILD SUCCESSFUL**. Native testtarget: **BUILD SUCCESSFUL**, men fyra native tester **inte körda**.
+- Enhetsbyggen venu441mm och venu445mm: **BUILD SUCCESSFUL**. Fem native tester: **5/5 PASS på vardera enheten** i Garmin-simulatorn.
+- Simulatorgranskning: Glance A och fullvy på båda storlekarna med nyligen hämtade verkliga API-svar i cache. Hem/Jobb-byte på 41 mm, rullning på 45 mm och gammal-cache-varning på 45 mm kontrollerade. Se [simulatorkontroll](simulator-verification.md).
 - Lokal HTTP-test: 200 health, 401 utan nyckel, 400 fel profil, 503 ofärdig konfiguration och 429 rate limit.
 - Ingen extern driftsättning, Store-publicering eller klockinstallation.
 
@@ -15,12 +16,12 @@
 
 1. Västtrafik-konto, API-prenumeration och OAuth är nu verifierade.
 2. Samtliga regler har verifierade hållplatslägen och status verified. Se [live-verifiering](live-verification.md). Lokal HTTP-kontroll gav 200 för båda profilerna: Hem 16 avgångar (15 med realtid), Jobb 6 (alla med realtid). 173 verifierades i vardagens tidtabell.
-3. Installera Venu 4-enhetsfiler. Byggförsöket gav **Invalid device id specified: 'venu441mm'**. Produktnamnet finns i SDK-exemplen men installerat device package saknas.
-4. Kör native tester och granska verklig Glance/fullvy på båda storlekarna: marginaler, långa texter, 0/1/2+ avgångar, stale/offline och profil-livscykel. Ingen simulatorlayout är godkänd ännu.
+3. Enhetsfilerna är installerade. Båda enhetsbyggena och native testerna är godkända.
+4. Återstående acceptans: fullständigt HTTPS-flöde från Garmin, verkligt anslutningsbortfall, hela profil-livscykeln och visuell edge-case-matris (0/1/inställt/långa texter) på båda storlekarna. Logiska cachefallen täcks av native tester.
 5. Välj HTTPS-host och verifiera container, TLS, appnyckel och sideload-inställningar.
 6. Installera på klockan och jämför verkliga avgångar.
 
-**Implementerad och delvis verifierad, inte driftklar.** Generell kompilering ersätter inte enhetsbygge eller klocktest.
+**Implementerad och delvis verifierad, inte driftklar.** Simulatorprov ersätter inte fysisk klocktest eller HTTPS-integration.
 
 ## API-dokumentationskontroll
 

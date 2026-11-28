@@ -23,7 +23,7 @@ class DepartureModel {
         Application.Storage.setValue("activeProfile", profile);
     }
     function selectProfile(id) {
-        if (id == profile) { return; }
+        if (id.equals(profile)) { return; }
         profile = id;
         generation += 1;
         busy = false;
@@ -33,7 +33,7 @@ class DepartureModel {
         refresh();
     }
     function label() {
-        for (var i = 0; i < profiles.size(); i += 1) { var p = profiles[i]; if (p["id"] == profile) { return p["label"]; } }
+        for (var i = 0; i < profiles.size(); i += 1) { var p = profiles[i]; if (profile.equals(p["id"])) { return p["label"]; } }
         return profile;
     }
     function refresh() {
@@ -59,7 +59,7 @@ class DepartureModel {
     }
     function receive(id, version, code, result) {
         // An older request must never replace the newly selected profile.
-        if (id != profile || version != generation) { return; }
+        if (!id.equals(profile) || version != generation) { return; }
         busy = false;
         if (code == 200 && validResponse(result, id)) {
             data = result;
@@ -90,7 +90,7 @@ class DepartureModel {
         WatchUi.requestUpdate();
     }
     function validResponse(r, id) {
-        if (!(r instanceof Lang.Dictionary) || r["schemaVersion"] != 1 || r["profileId"] != id ||
+        if (!(r instanceof Lang.Dictionary) || r["schemaVersion"] != 1 || !id.equals(r["profileId"]) ||
             !(r["generatedEpoch"] instanceof Lang.Number) || !(r["departures"] instanceof Lang.Array) || r["departures"].size() > 100) { return false; }
         var previous = 0;
         for (var i = 0; i < r["departures"].size(); i += 1) {

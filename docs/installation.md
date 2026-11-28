@@ -1,6 +1,6 @@
 # Kom igång – steg för steg
 
-Backend hämtar nu riktiga avgångar. Konto, nycklar och hållplatsverifiering är klara på denna dator. Fortsätt med steg 4 för Garmin-enhetsfiler; guiden behåller tidigare steg för nyinstallation.
+Backend hämtar nu riktiga avgångar. Konto, nycklar och hållplatsverifiering är klara på denna dator. Garmin-enhetsfiler och båda byggena är också klara. Fortsätt med steg 5; guiden behåller tidigare steg för nyinstallation.
 
 ## 1. Västtrafik-kontot
 
@@ -35,9 +35,9 @@ Säg till Codex: **Kontot och nycklarna är klara.** Skicka inte själva nycklar
 
 ## 4. Garmin-verktygen
 
-SDK 9.3.0 finns i D:\dev-cache\garmin\sdk. Java finns i Android Studios installation. Enhetsfiler saknas fortfarande.
+SDK 9.3.0 finns i D:\dev-cache\garmin\sdk. Java finns i Android Studios installation. Enhetsfiler för båda Venu 4-storlekarna är installerade; fem native tester per storlek passerar.
 
-1. Öppna D:\dev-cache\garmin\manager\sdkmanager.exe i Utforskaren. Ett bakgrundsstartförsök gav inget användbart fönster; starta programmet synligt själv vid behov.
+1. Öppna D:\dev-cache\garmin\manager\sdkmanager.exe i Utforskaren. Om inget fönster öppnas, kontrollera om en kvarvarande dold sdkmanager-process blockerar starten. Den tidigare låsningen löstes genom att avsluta just den processen och starta programmet på nytt.
 2. Logga in med ditt Garmin-konto om programmet begär det.
 3. Under **Devices**, installera **Venu 4 41mm** och **Venu 4 45mm**. SDK Manager kan också behöva välja aktiv SDK.
 4. Meddela Codex när enheterna är installerade. Då kan båda byggena, native testerna och verkliga Glance-format kontrolleras.
