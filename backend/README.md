@@ -1,3 +1,9 @@
+# V2.2 – implementation
+
+Källkod finns nu. Se [V2.2-dokumentation](../docs/v2.2-ak-hem.md) för gällande funktion, drift och verifiering. Äldre text nedan är historisk specifikation.
+
+---
+
 # Backend: skarp Västtrafik-proxy (implementation till Codex)
 
 **Här ska riktig backend-kod implementeras**, ingen mockserver i produktion. Rekommendation: TypeScript/Cloudflare Workers, om inget viktigare talar för Python/FastAPI.
