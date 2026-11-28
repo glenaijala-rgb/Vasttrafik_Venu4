@@ -78,8 +78,10 @@ async function journeys(q){
  const home=getHome();let origin;
  if(q.has('originKey')){
  const station=cfg.profiles.flatMap(p=>p.stations).find(s=>s.key===q.get('originKey'));
- if(!station||!/^\d{16}$/.test(station.stopAreaGid??''))throw fail('ORIGIN_CONFIG_INCOMPLETE',503);
- origin={originGid:station.stopAreaGid};
+ const key=q.get('originKey');
+ const gid=station?.stopAreaGid??(key.startsWith('gid:')?key.slice(4):null);
+ if(!/^9021\d{12}$/.test(gid??''))throw fail('ORIGIN_CONFIG_INCOMPLETE',503);
+ origin={originGid:gid};
  }else{
  let c;try{c=coordinate(q.get('lat'),q.get('lon'));}catch{throw fail('INVALID_POSITION',400);}
  origin={originLatitude:c.lat,originLongitude:c.lon};
@@ -105,6 +107,13 @@ http.createServer(async(req,res)=>{
  busy++;slot=true;
  if(u.pathname==='/api/v1/departures')return send(res,200,await departures(u.searchParams.get('profile')));
  if(u.pathname==='/api/v1/journeys/home')return send(res,200,await journeys(u.searchParams));
+ if(u.pathname==='/api/v1/origins/search'){
+ const q=(u.searchParams.get('q')??'').trim();
+ if(q.length<2||q.length>80)throw fail('INVALID_SEARCH',400);
+ const data=await api('locations/by-text',{q,types:'stoparea',limit:10});
+ const origins=rows(data).filter(x=>/^9021\d{12}$/.test(x.gid??'')&&typeof x.name==='string').map(x=>({key:'gid:'+x.gid,label:x.name}));
+ return send(res,200,{origins});
+ }
  if(u.pathname==='/api/v1/origins')return send(res,200,{origins:cfg.profiles.flatMap(p=>p.stations).filter(s=>/^\d{16}$/.test(s.stopAreaGid??'')).map(s=>({key:s.key,label:s.name}))});
  throw fail('NOT_FOUND',404);
  }catch(e){send(res,e.status??502,{error:e.status?e.message:'UPSTREAM_UNAVAILABLE'});}
