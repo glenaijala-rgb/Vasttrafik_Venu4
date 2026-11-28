@@ -90,6 +90,7 @@ class TransitView extends WatchUi.View {
     var offset=0;
     var details=null;
     var originChoices=[];
+    var pendingSearch=null;
     var retryAfter=0;
     function initialize(){
         View.initialize();
@@ -122,6 +123,11 @@ class TransitView extends WatchUi.View {
     }
     function tick(){
         if(!active){return;}
+        if(pendingSearch!=null && !busy){
+            var q=pendingSearch;pendingSearch=null;
+            send("/api/v1/origins/search",{"q"=>q},"origins");
+            return;
+        }
         if(details==null && nowSeconds()>=nextRefresh && nowSeconds()>=retryAfter && !busy && !gpsActive){
             nextRefresh=nowSeconds()+60;
             refresh();
@@ -206,6 +212,7 @@ class TransitView extends WatchUi.View {
             originChoices=data["origins"];
             var menu=new WatchUi.Menu2({:title=>"Startplats"});
             menu.addItem(new WatchUi.MenuItem("Automatisk GPS",null,"gps",{}));
+            if(WatchUi has :TextPicker){menu.addItem(new WatchUi.MenuItem("Sök hållplats",null,"search",{}));}
             for(var i=0;i<originChoices.size();i++){
                 menu.addItem(new WatchUi.MenuItem(originChoices[i]["label"],null,originChoices[i]["key"],{}));
             }
@@ -311,8 +318,23 @@ class OriginDelegate extends WatchUi.Menu2InputDelegate {
     function initialize(v){Menu2InputDelegate.initialize();view=v;}
     function onSelect(item){
         var id=item.getId();
+        if(id.equals("search")){
+            WatchUi.popView(WatchUi.SLIDE_DOWN);
+            WatchUi.pushView(new WatchUi.TextPicker(""),new StopSearchDelegate(view),WatchUi.SLIDE_UP);
+            return;
+        }
         if(id.equals("gps")){view.setOrigin(null,"");}
         else{for(var i=0;i<view.originChoices.size();i++){var c=view.originChoices[i];if(c["key"].equals(id)){view.setOrigin(id,c["label"]);break;}}}
         WatchUi.popView(WatchUi.SLIDE_DOWN);
     }
+}
+
+class StopSearchDelegate extends WatchUi.TextPickerDelegate {
+    var view;
+    function initialize(v){TextPickerDelegate.initialize();view=v;}
+    function onTextEntered(text as Lang.String,changed as Lang.Boolean) as Lang.Boolean {
+        if(text.length()>=2){view.pendingSearch=text;}
+        return true;
+    }
+    function onCancel() as Lang.Boolean {return true;}
 }
