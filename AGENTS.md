@@ -1,3 +1,9 @@
+# V2.2 – gällande instruktion
+
+Implementation finns i backend/src och garmin/source. Läs docs/v2.2-ak-hem.md först. Den ersätter tidigare instruktioner om att koden inte finns, att positionering inte ingår samt förslag om val av teknik. Behåll Node 22 och Monkey C, verifiera befintlig kod mot skarpa APR-svar och Garmin SDK. Skriv inte om i onödan. Ingen deploy eller publicering utan uppdrag.
+
+---
+
 # Instruktioner till Codex
 
 Bygg **den avsedda skarpa lösningen**, inte en prototyp som behöver skrivas om. Läs CODEX_START.md och docs/functional-spec.md, docs/ui-spec.md, **docs/glance-spec.md**, docs/architecture.md, docs/api-contract.md och docs/adding-stations.md före implementation.
