@@ -85,9 +85,9 @@ async function journeys(q){
  origin={originLatitude:c.lat,originLongitude:c.lon};
  }
  // Location-based results deliberately not persisted or globally cached.
- const data=await api('journeys',{...origin,destinationLatitude:home.lat,destinationLongitude:home.lon,limit:8});
+ const data=await api('journeys',{...origin,destinationLatitude:home.lat,destinationLongitude:home.lon,originWalk:'1,,',destWalk:'1,,',limit:8});
  const options=rank(rows(data).map(normalizeJourney),now(),3);
- if(rows(data).length&&!options.length && rows(data).some(j=>!j.isCancelled))throw fail('NO_VALID_JOURNEYS',502);
+ if(rows(data).length&&!options.length && rows(data).some(j=>!j.isCancelled&&!j.isDeparted))throw fail('NO_VALID_JOURNEYS',502);
  return {schemaVersion:1,generatedEpoch:now(),destinationLabel:'Hem',journeys:options};
 }
 const rate={start:0,count:0};let busy=0;
