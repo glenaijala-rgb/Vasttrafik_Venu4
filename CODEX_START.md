@@ -1,3 +1,9 @@
+# V2.2 – gällande instruktion
+
+Implementation finns i backend/src och garmin/source. Läs docs/v2.2-ak-hem.md först. Den ersätter tidigare instruktioner om att koden inte finns, att positionering inte ingår samt förslag om val av teknik. Behåll Node 22 och Monkey C, verifiera befintlig kod mot skarpa APR-svar och Garmin SDK. Skriv inte om i onödan. Ingen deploy eller publicering utan uppdrag.
+
+---
+
 # Codex: startuppdrag för skarp version 2.1
 
 Implementera den skarpa Västtrafik-widgeten enligt docs/functional-spec.md, docs/ui-spec.md och **docs/glance-spec.md** (fastställt alternativ A). Återanvänd och håll config/profiles.json som den enda källan för profilernas hållplatser, linjer och riktningsvillkor.

@@ -1,0 +1,1 @@
+<settings><setting propertyKey="@Properties.backendUrl" title="@Strings.BackendUrl"><settingConfig type="alphaNumeric" maxLength="200"/></setting><setting propertyKey="@Properties.accessToken" title="@Strings.AccessToken"><settingConfig type="alphaNumeric" maxLength="128"/></setting></settings>
