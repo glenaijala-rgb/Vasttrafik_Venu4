@@ -1,6 +1,6 @@
 # Kom igång – steg för steg
 
-Appen har kod men visar ännu inte riktiga avgångar. Gör först steg 1, så kan Codex sedan fortsätta.
+Backend hämtar nu riktiga avgångar. Konto, nycklar och hållplatsverifiering är klara på denna dator. Fortsätt med steg 4 för Garmin-enhetsfiler; guiden behåller tidigare steg för nyinstallation.
 
 ## 1. Västtrafik-kontot
 
@@ -18,10 +18,10 @@ Kontrollerat mot [kontoguiden](https://developer.vasttrafik.se/guides/get-starte
 
 ```powershell
 cd 'D:\kod\Vastrafik Venu4'
-.\scripts\setup-secrets.ps1
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\scripts\setup-secrets.ps1
 ```
 
-Scriptet frågar efter klientidentifieraren och hemligheten. Inmatningen är dold. Det skapar backend/.env med filåtkomst endast för ditt Windows-konto och en separat slumpnyckel för klockappen. Filen ignoreras av Git. En befintlig fil skrivs inte över.
+Scriptet frågar efter klientidentifieraren och hemligheten. Inmatningen är dold. Högerklicka för att klistra in; Ctrl+V kan bli ett kontrolltecken i Windows PowerShell. Vid byte av nycklar: lägg till -UpdateCredentials i kommandot. Övriga inställningar behålls. Det skapar backend/.env med filåtkomst endast för ditt Windows-konto och en separat slumpnyckel för klockappen. Filen ignoreras av Git. En befintlig fil skrivs inte över.
 
 Säg till Codex: **Kontot och nycklarna är klara.** Skicka inte själva nycklarna.
 

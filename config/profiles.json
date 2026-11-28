@@ -22,7 +22,7 @@
           "key": "wennerbergsgatan",
           "name": "Wennerbergsgatan",
           "shortLabel": "Wennerbergsg.",
-          "stopAreaGid": null,
+          "stopAreaGid": "9021014012222000",
           "criteria": [
             {
               "id": "753-heden",
@@ -36,12 +36,14 @@
                   "Heden"
                 ],
                 "allowedDirectionGids": [],
-                "allowedStopPointGids": [],
+                "allowedStopPointGids": [
+                  "9022014012222002"
+                ],
                 "allowedPlatforms": [],
                 "mustPassStopAreaGids": [],
-                "verificationStatus": "pending",
-                "verifiedAt": null,
-                "verificationNote": "Kontrollera med live-API, använd inte headsignHint som enda produktionsfilter"
+                "verificationStatus": "verified",
+                "verifiedAt": "2026-11-28T10:53:07.116Z",
+                "verificationNote": "Läge B mot Heden; detaljanrop visar Toltorpsskolan, Sahlgrenska, Chalmers och Heden efter Wennerbergsgatan. Live Planera Resa v4 2026-11-28; se docs/live-verification.md."
               }
             }
           ]
@@ -50,7 +52,7 @@
           "key": "toltorpsskolan",
           "name": "Toltorpsskolan",
           "shortLabel": "Toltorpssk.",
-          "stopAreaGid": null,
+          "stopAreaGid": "9021014012221000",
           "criteria": [
             {
               "id": "25-hisingen",
@@ -65,12 +67,14 @@
                   "Hisingen"
                 ],
                 "allowedDirectionGids": [],
-                "allowedStopPointGids": [],
+                "allowedStopPointGids": [
+                  "9022014012221002"
+                ],
                 "allowedPlatforms": [],
                 "mustPassStopAreaGids": [],
-                "verificationStatus": "pending",
-                "verifiedAt": null,
-                "verificationNote": "Verifiera verklig destinationsskylt, GID och hållplatsläge"
+                "verificationStatus": "verified",
+                "verifiedAt": "2026-11-28T10:53:07.118Z",
+                "verificationNote": "Läge B mot Hisingen; verifierade varianter Länsmansgården och Länsmanstorget passerar Hjalmar Brantingsplatsen. Läge A mot Balltorp/Mölndal utesluts. Live Planera Resa v4 2026-11-28; se docs/live-verification.md."
               }
             }
           ]
@@ -87,7 +91,7 @@
           "key": "kretsloppsparken",
           "name": "Kretsloppsparken",
           "shortLabel": "Kretsloppsp.",
-          "stopAreaGid": null,
+          "stopAreaGid": "9021014005095000",
           "criteria": [
             {
               "id": "78-gamlestaden",
@@ -101,12 +105,14 @@
                   "Gamlestads Torg"
                 ],
                 "allowedDirectionGids": [],
-                "allowedStopPointGids": [],
+                "allowedStopPointGids": [
+                  "9022014005095001"
+                ],
                 "allowedPlatforms": [],
                 "mustPassStopAreaGids": [],
-                "verificationStatus": "pending",
-                "verifiedAt": null,
-                "verificationNote": "Verifiera GID, linje och färdriktning via live-API"
+                "verificationStatus": "verified",
+                "verifiedAt": "2026-11-28T10:53:07.118Z",
+                "verificationNote": "Läge A via Alelyckan, Skräppekärr Östra, Alekärrsgatan och Nylösegatan till Gamlestads Torg. Läge B mot Eriksbo utesluts. Live Planera Resa v4 2026-11-28; se docs/live-verification.md."
               }
             },
             {
@@ -121,12 +127,14 @@
                   "Heden"
                 ],
                 "allowedDirectionGids": [],
-                "allowedStopPointGids": [],
+                "allowedStopPointGids": [
+                  "9022014005095001"
+                ],
                 "allowedPlatforms": [],
                 "mustPassStopAreaGids": [],
-                "verificationStatus": "pending",
-                "verifiedAt": null,
-                "verificationNote": "Kontrollera linjens faktiska väg och vad 'mot Gamlestaden' innebär; destinationsnamn räcker inte"
+                "verificationStatus": "verified",
+                "verifiedAt": "2026-11-28T10:53:07.118Z",
+                "verificationNote": "Läge A mot Heden via Alelyckan, Skräppekärr Östra, Alekärrsgatan, Nylösegatan och Kristinedal. Kör genom Gamlestaden men stannar INTE vid Gamlestads Torg. Verifierad vardag 2026-11-30; ingen 173 i lördagens sökfönster. Live Planera Resa v4 2026-11-28; se docs/live-verification.md."
               }
             }
           ]

@@ -1,4 +1,4 @@
-param(
+﻿param(
     [string]$SdkPath = $env:CONNECTIQ_SDK_HOME,
     [string]$JavaHome = $env:JAVA_HOME,
     [switch]$SyntaxOnly
@@ -13,7 +13,9 @@ if ($JavaHome) { $env:PATH = "$JavaHome\bin;$env:PATH" }
 node scripts/generate-watch-config.mjs
 if ($LASTEXITCODE -ne 0) { throw 'Konfigurationen kunde inte genereras.' }
 New-Item -ItemType Directory -Force garmin\bin, garmin\local | Out-Null
-node --input-type=module -e 'import fs from "node:fs"; import {generateKeyPairSync} from "node:crypto"; const path="garmin/local/developer.der"; if(!fs.existsSync(path)) fs.writeFileSync(path,generateKeyPairSync("rsa",{modulusLength:4096,privateKeyEncoding:{type:"pkcs8",format:"der"},publicKeyEncoding:{type:"spki",format:"pem"}}).privateKey);'
+@'
+import fs from "node:fs"; import {generateKeyPairSync} from "node:crypto"; const path="garmin/local/developer.der"; if(!fs.existsSync(path)) fs.writeFileSync(path,generateKeyPairSync("rsa",{modulusLength:4096,privateKeyEncoding:{type:"pkcs8",format:"der"},publicKeyEncoding:{type:"spki",format:"pem"}}).privateKey);
+'@ | node --input-type=module
 if ($LASTEXITCODE -ne 0) { throw 'Signeringsnyckeln kunde inte skapas.' }
 $targets = if ($SyntaxOnly) { @('syntax-check') } else { @('venu441mm', 'venu445mm') }
 foreach ($target in $targets) {

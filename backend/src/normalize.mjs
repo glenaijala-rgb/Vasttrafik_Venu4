@@ -12,9 +12,13 @@ export function cancelled(d) {
   return d.isCancelled === true;
 }
 
+export function lineLabel(line) {
+  return [line?.shortName, line?.designation, line?.name].find(value => typeof value === 'string' && value.trim())?.trim();
+}
+
 export function matches(d, rule, queriedDirection, onwardGids = []) {
   if (!rule.enabled || rule.direction.verificationStatus !== 'verified') return false;
-  if (!rule.lineNames.includes(d.serviceJourney?.line?.name)) return false;
+  if (!rule.lineNames.includes(lineLabel(d.serviceJourney?.line))) return false;
   const r = rule.direction;
   const stop = d.realtimeStopPoint ?? d.stopPoint;
   return (!r.allowedDirectionGids.length || r.allowedDirectionGids.includes(queriedDirection)) &&
@@ -58,7 +62,7 @@ export function normalize(d, station) {
   return {
     id: `${journey.gid}:${d.stopPoint.gid}:${planned}`,
     stationKey: station.key, stationLabel: station.shortLabel,
-    line: journey.line.name, destination: journey.direction ?? '',
+    line: lineLabel(journey.line), destination: journey.directionDetails?.shortDirection ?? journey.direction ?? '',
     departureTime: new Date(actual).toISOString(), plannedTime: new Date(planned).toISOString(),
     departureEpoch: Math.floor(actual / 1000),
     isRealtime: Number.isFinite(estimated), isCancelled: cancelled(d),

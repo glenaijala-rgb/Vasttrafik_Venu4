@@ -31,7 +31,7 @@ Alla profiler, hållplatser, linjer och riktningsregler ligger i **config/profil
 - **.github/workflows/** automatiska kontroller
 
 ## Verklig status
-**2026-11-28: implementerad, inte driftklar.** 29 automatiska Node-tester passerar. Appen och fyra native tester har kompilerats generellt med Garmin SDK 9.3.0. Klocktesterna har ännu inte körts. Venu 4-enhetsfiler saknas, så enhetsbygge, simulatorgranskning och klockinstallation återstår. API-nycklar, verifierade hållplatsriktningar och HTTPS-drift återstår också. Se [aktuell status](docs/implementation-status.md).
+**2026-11-28: implementerad, inte driftklar.** 35 automatiska Node-tester passerar. Appen och fyra native tester har kompilerats generellt med Garmin SDK 9.3.0. Klocktesterna har ännu inte körts. Venu 4-enhetsfiler saknas, så enhetsbygge, simulatorgranskning och klockinstallation återstår. OAuth, hållplatsriktningar och lokal HTTP-hämtning av verklig realtidsdata är verifierade. HTTPS-drift återstår. Se [aktuell status](docs/implementation-status.md).
 
 Kör `npm ci` och `npm run check` från reporoten för lokal verifiering.
 

@@ -13,7 +13,10 @@ test("home contains two different stations; job contains two bus criteria", () =
   assert.deepEqual(job.stations[0].criteria.map(c => c.lineNames[0]), ["78", "173"]);
 });
 test("production must not start with unverified stop IDs or direction selectors", () => {
-  assert.ok(validateConfig(loadConfig(), { production: true }).length > 0);
+  const cfg = loadConfig();
+  assert.deepEqual(validateConfig(cfg, { production: true }), []);
+  cfg.profiles[0].stations[0].criteria[0].direction.verificationStatus = 'pending';
+  assert.ok(validateConfig(cfg, { production: true }).length > 0);
 });
 test("adding another station needs only configuration data", () => {
   const cfg = structuredClone(loadConfig());

@@ -29,7 +29,9 @@ function raw(line = '753', minute = 1, extra = {}) {
 }
 
 test('pending configuration fails closed before a single upstream call', async () => {
-  const service = new DepartureService(loadConfig(), { departures() { assert.fail('no network allowed'); } });
+  const pending = loadConfig();
+  pending.profiles[0].stations[0].criteria[0].direction.verificationStatus = 'pending';
+  const service = new DepartureService(pending, { departures() { assert.fail('no network allowed'); } });
   await assert.rejects(service.get('home'), { code: 'CONFIG_INCOMPLETE', status: 503 });
   await assert.rejects(service.get('unknown'), { code: 'INVALID_PROFILE' });
 });
@@ -183,7 +185,9 @@ test('documented null results is an empty departure list', async () => {
 });
 test('HTTP endpoint enforces authentication, profile allowlist, safe errors and rate limit', async t => {
   const accessKey = 'a'.repeat(40);
-  const service = new DepartureService(loadConfig(), {});
+  const pending = loadConfig();
+  pending.profiles[0].stations[0].criteria[0].direction.verificationStatus = 'pending';
+  const service = new DepartureService(pending, {});
   const server = createServer(createApp({ service, accessKey, maxRequests: 3 }));
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   t.after(() => { server.closeAllConnections(); server.close(); });
