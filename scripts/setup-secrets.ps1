@@ -14,6 +14,7 @@ foreach ($value in @($baseUrl, $tokenUrl)) {
     $uri = [Uri]$value
     if (-not $uri.IsAbsoluteUri -or $uri.Scheme -ne 'https' -or $uri.UserInfo -or $uri.Query -or $uri.Fragment) { throw 'Adressen måste vara HTTPS utan inloggningsuppgifter eller frågeparametrar.' }
 }
+Write-Host 'Klistra in genom att HÖGERKLICKA i PowerShell-fönstret. Använd inte Ctrl+V vid dessa två frågor.'
 $clientIdSecure = Read-Host 'Klientidentifierare (INTE autentiseringsnyckel)' -AsSecureString
 $clientSecretSecure = Read-Host 'Client secret / hemlighet' -AsSecureString
 function Get-PlainText([Security.SecureString]$Value) {
@@ -24,6 +25,9 @@ function Get-PlainText([Security.SecureString]$Value) {
 $clientId = (Get-PlainText $clientIdSecure).Trim()
 $clientSecret = (Get-PlainText $clientSecretSecure).Trim()
 if (-not $clientId -or -not $clientSecret -or $clientId -match '[\r\n"'']' -or $clientSecret -match '[\r\n"'']') { throw 'Tomt eller ogiltigt nyckelformat.' }
+if ($clientId.Length -lt 2 -or $clientSecret.Length -lt 2 -or $clientId -match '[\x00-\x20\x7f]' -or $clientSecret -match '[\x00-\x20\x7f]') {
+    throw 'Koderna klistrades inte in korrekt. Ingen ändring har sparats. Kör igen och högerklicka för att klistra in i stället för Ctrl+V.'
+}
 $bytes = New-Object byte[] 32
 $rng = [Security.Cryptography.RandomNumberGenerator]::Create()
 try { $rng.GetBytes($bytes) } finally { $rng.Dispose() }
