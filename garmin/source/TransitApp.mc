@@ -4,6 +4,7 @@ import Toybox.Communications;
 import Toybox.Graphics;
 import Toybox.Lang;
 import Toybox.Math;
+import Toybox.System;
 import Toybox.Position;
 import Toybox.Time;
 import Toybox.Time.Gregorian;
@@ -13,7 +14,8 @@ import Toybox.WatchUi;
 function nowSeconds() { return Time.now().value(); }
 function minutesUntil(t) {
     if (t == null) { return "?"; }
-    return Math.ceil((t-nowSeconds())/60.0).toNumber().toString();
+    var m=Math.ceil((t-nowSeconds())/60.0).toNumber();
+    return m<0?"Passerad":m.toString();
 }
 function clockText(t) {
     if (t == null) { return "--:--"; }
@@ -110,7 +112,7 @@ class TransitView extends WatchUi.View {
     function stopGps(){
         if(gpsActive){
             gpsActive=false;gpsTimer.stop();
-            Position.enableLocationEvents(Position.LOCATION_DISABLE,null);
+            try{Position.enableLocationEvents(Position.LOCATION_DISABLE,null);}catch(e){}
         }
     }
     function switchPage(p){
@@ -120,14 +122,14 @@ class TransitView extends WatchUi.View {
     }
     function tick(){
         if(!active){return;}
-        if(nowSeconds()>=nextRefresh && nowSeconds()>=retryAfter && !busy && !gpsActive){
+        if(details==null && nowSeconds()>=nextRefresh && nowSeconds()>=retryAfter && !busy && !gpsActive){
             nextRefresh=nowSeconds()+60;
             refresh();
         }
         WatchUi.requestUpdate();
     }
     function forceRefresh(){
-        nextRefresh=0;
+        details=null;offset=0;nextRefresh=0;
         if(!busy&&!gpsActive){tick();}
     }
     function acceptFix(info,maxAge){
@@ -171,7 +173,7 @@ class TransitView extends WatchUi.View {
     }
     function chooseOrigin(){
         if(busy){status="Hämtar… försök igen";return;}
-        send("/api/v1/origins",{},"origins");
+        stopGps();send("/api/v1/origins",{},"origins");
     }
     function setOrigin(key,label){
         generation++;manualKey=key;manualLabel=label;details=null;rows=[];response=null;offset=0;
@@ -211,8 +213,9 @@ class TransitView extends WatchUi.View {
         }
         var list=requestKind.equals("journeys")?data["journeys"]:data["departures"];
         if(!(list instanceof Lang.Array)||data["generatedEpoch"]==null){status="Ogiltigt svar";return;}
-        response=data;rows=list;offset=0;status="";
-        if(page<2){Storage.setValue("dep_"+profileIds[page],data);}
+        response=data;rows=list;status="";
+        if(offset>=rows.size()){offset=0;}
+        if(page<2){try{Storage.setValue("dep_"+profileIds[page],data);}catch(e){}}
         WatchUi.requestUpdate();
     }
     function showText(dc,x,y,font,s,maxW,color){
@@ -237,7 +240,7 @@ class TransitView extends WatchUi.View {
             var count=page==2?2:3;
             for(var i=0;i<count && offset+i<rows.size();i++){
                 var r=rows[offset+i];var y=h*(0.28+i*(page==2?0.23:0.16));
-                var main=page==2?r["line"]+"  "+minutesUntil(r["boardEpoch"])+" min":r["line"]+"  "+(r["isCancelled"]?"Inställd":minutesUntil(r["departureEpoch"])+" min");
+                var main=page==2?r["line"]+"  "+minutesUntil(r["departureEpoch"])+" min":r["line"]+"  "+(r["isCancelled"]?"Inställd":minutesUntil(r["departureEpoch"])+" min");
                 showText(dc,w/2,y,Graphics.FONT_MEDIUM,main,w*0.76,stale?Graphics.COLOR_LT_GRAY:Graphics.COLOR_WHITE);
                 var sub=page==2?"Från "+r["boardStop"]:r["stationLabel"]+" · "+r["destination"];
                 showText(dc,w/2,y+h*0.08,Graphics.FONT_XTINY,sub,w*0.78,Graphics.COLOR_LT_GRAY);
@@ -251,7 +254,7 @@ class TransitView extends WatchUi.View {
         var right=page==2?"Hem/Jobb":"Åk hem";
         showText(dc,w*0.29,h*0.83,Graphics.FONT_TINY,left,w*0.44,Graphics.COLOR_WHITE);
         showText(dc,w*0.72,h*0.83,Graphics.FONT_TINY,right,w*0.45,Graphics.COLOR_WHITE);
-        showText(dc,w/2,h*0.92,Graphics.FONT_XTINY,"Tryck rubrik: uppdatera",w*0.55,Graphics.COLOR_LT_GRAY);
+        
     }
     function drawDetails(dc,w,h){
         var steps=details["steps"];
@@ -266,7 +269,9 @@ class TransitView extends WatchUi.View {
     }
     function scroll(delta){
         var list=details==null?rows:details["steps"];
-        offset=Math.max(0,Math.min(Math.max(0,list.size()-1),offset+delta));
+        offset=offset+delta;
+        if(offset>=list.size()){offset=list.size()-1;}
+        if(offset<0){offset=0;}
         WatchUi.requestUpdate();
     }
     function tap(x,y,w,h){
@@ -290,7 +295,7 @@ class TransitDelegate extends WatchUi.BehaviorDelegate {
     function initialize(v){BehaviorDelegate.initialize();view=v;}
     function onTap(evt){
         var xy=evt.getCoordinates();
-        var settings=Toybox.System.getDeviceSettings();
+        var settings=System.getDeviceSettings();
         return view.tap(xy[0],xy[1],settings.screenWidth,settings.screenHeight);
     }
     function onSwipe(evt){
